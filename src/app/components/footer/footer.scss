@@ -1,0 +1,67 @@
+@use 'variables' as *;
+
+.footer {
+  background: $slate-900;
+  color: $white;
+  padding: 60px 0 24px;
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+    font-weight: 900;
+    font-style: italic;
+    color: $primary;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .footer-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, .65);
+    line-height: 1.7;
+  }
+
+  h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .4);
+    margin-bottom: 16px;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    a {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .7);
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .45);
+    }
+  }
+}

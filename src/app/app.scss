@@ -1,0 +1,15 @@
+@use 'variables' as *;
+
+.app-root {
+  min-height: 100vh;
+  background: $surface;
+  color: $on-surface;
+
+  .page {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}
