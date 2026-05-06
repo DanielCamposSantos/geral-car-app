@@ -13,7 +13,7 @@ export class LandingPageContent {
   veiculoService = inject(Veiculo)
 
   ngOnInit(){
-    this.veiculoService.load()
+    this.veiculoService.getAll()
   }
 
 }

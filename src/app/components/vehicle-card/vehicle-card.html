@@ -1,31 +1,29 @@
 @if (veiculo) {
-  <article class="vehicle-card">
-    <div class="card-img">
-      <img 
-        [src]="realImagePath()"
-        [alt]="veiculo.marca + ' ' + veiculo.modelo"
-      />
+<article class="vehicle-card">
+  <div class="card-img">
+    <img
+      [src]="realImagePath()"
+      [alt]="veiculo.marca + ' ' + veiculo.modelo" />
+  </div>
+
+  <div class="card-body">
+
+    <div class="card-title">
+      {{ veiculo.marca }} {{ veiculo.modelo }}
     </div>
 
-    <div class="card-body">
-        
-      <div class="card-title">
-        {{ veiculo.marca }} {{ veiculo.modelo }}
-      </div>
-
-      <div class="card-specs">
-        <span class="chip">{{ veiculo.ano }}</span>
-        <span class="chip">
-         {{ veiculo.quilometragem | number}} km
-        </span>
-      </div>
-
-      <div class="card-footer">
-        <button class="btn btn-outline">Ver detalhes</button>
-        <button class="btn btn-wa btn-icon" type="button">
-          <span class="icon icon-fill">chat</span>
-        </button>
-      </div>
+    <div class="card-specs">
+      <span class="chip">{{ veiculo.ano }}</span>
+      <span class="chip">{{ veiculo.quilometragem | number}} km</span>
+      <span class="chip">{{ veiculo.combustivel}}</span>
     </div>
-  </article>
+
+    <div class="card-footer">
+      <button class="btn btn-outline">Ver detalhes</button>
+      <button class="btn btn-wa btn-icon" type="button">
+        <img src="images/whatsapp.svg">
+      </button>
+    </div>
+  </div>
+</article>
 }

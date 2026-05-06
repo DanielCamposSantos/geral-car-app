@@ -1,3 +1,4 @@
+import { TipoCombustivel } from "./enums/tipo-combustivel";
 import { ImagemGetResponse } from "./ImagemGetResponse";
 
 export interface VeiculoGetResponse {
@@ -8,6 +9,7 @@ export interface VeiculoGetResponse {
     ano: number,
     quilometragem: number,
     descricao: string,
+    combustivel: TipoCombustivel,
     avaliacao: number,
     imagens: ImagemGetResponse[]
 }
