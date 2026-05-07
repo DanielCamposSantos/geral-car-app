@@ -21,7 +21,13 @@
           "builder": "@angular/build:application",
           "options": {
             "stylePreprocessorOptions": {
-              "includePaths": ["src/styles"]
+              "includePaths": [
+                "src/styles/abstracts",
+                "src/styles/base",
+                "src/styles/components",
+                "src/styles/material"
+              
+              ]
             },
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",

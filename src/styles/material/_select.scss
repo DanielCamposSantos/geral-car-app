@@ -1,0 +1,10 @@
+@use 'variables' as *;
+
+.mat-mdc-select-value {
+  color: $slate-800;
+  font-weight: 500;
+}
+
+.mat-mdc-select-arrow {
+  color: $slate-500;
+}

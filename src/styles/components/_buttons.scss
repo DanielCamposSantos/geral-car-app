@@ -1,0 +1,41 @@
+@use 'variables' as *;
+
+.btn {
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 20px;
+
+  border-radius: $radius-md;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .02em;
+
+  transition: $transition;
+
+}
+
+.btn-primary {
+  background: $primary;
+  color: $white;
+}
+
+.btn-primary:hover {
+  background: $primary-dark;
+}
+
+.btn-outline {
+  background: transparent;
+  color: $primary;
+  border: 2px solid $primary;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: $slate-600;
+  border: 1px solid $surface-high;
+}
