@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Page } from '../models/Page';
-import { VeiculoGetResponse } from '../models/VeiculoGetResponse';
-import { VeiculoFilter } from '../models/VeiculoFilter';
+import { Page } from '../models/page';
+import { VeiculoGetResponse } from '../models/veiculo-get-response';
+import { VeiculoFilter } from '../models/veiculo-filter';
+import { Filtros } from '../models/filtros';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,7 @@ export class Veiculo {
     number: 0,
     size: 0
   });
+
 
   page = this.pageSignal.asReadonly()
 
@@ -36,6 +38,21 @@ export class Veiculo {
     this.http.get<Page<VeiculoGetResponse>>(this.baseUrl, { params })
       .subscribe(data => this.pageSignal.set(data))
   }
+
+  private filtrosSignal = signal<Filtros>({
+    anos: [],
+    combustiveis: []
+  })
+
+  filtros = this.filtrosSignal.asReadonly()
+
+
+  loadFiltros() {
+    this.http.get<Filtros>(`${this.baseUrl}/filtros`)
+      .subscribe(data => this.filtrosSignal.set(data))
+  }
+
+
 
 
 

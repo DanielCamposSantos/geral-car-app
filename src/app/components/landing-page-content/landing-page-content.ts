@@ -14,6 +14,7 @@ export class LandingPageContent {
 
   ngOnInit(){
     this.veiculoService.getAll()
+    this.veiculoService.loadFiltros()
   }
 
 }

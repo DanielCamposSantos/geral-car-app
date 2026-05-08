@@ -1,5 +1,5 @@
 import { TipoCombustivel } from "./enums/tipo-combustivel";
-import { ImagemGetResponse } from "./ImagemGetResponse";
+import { ImagemGetResponse } from "./imagem-get-response";
 
 export interface VeiculoGetResponse {
     id: number,

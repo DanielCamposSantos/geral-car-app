@@ -1,5 +1,5 @@
 import { Component, computed, Input } from '@angular/core';
-import { VeiculoGetResponse } from '../../models/VeiculoGetResponse';
+import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { environment } from '../../../environments/environment.development';
 import { CommonModule } from '@angular/common';
 

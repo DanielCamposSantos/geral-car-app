@@ -1,7 +1,7 @@
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-tag">
-      <span class="icon icon-fill">verified</span>
+      <span class="app-icon">verified</span>
       Estoque verificado e atualizado
     </div>
     <h1>
@@ -9,12 +9,23 @@
       <em>dos seus sonhos</em><br />
       na Geral Car.
     </h1>
-    <p>Veículos selecionados com especificações completas e contato direto com o vendedor via WhatsApp.</p>
+    <p>Veículos selecionados com especificações completas e contato direto com o
+      vendedor via WhatsApp.</p>
 
     <div class="search-box" id="hero-search-box">
-      
+      <app-selector-input
+        [options]="anos()"
+        placeholder="Qualquer ano"
+        icon="calendar_today"
+        (valueChange)="onYearChange($event)"/>
+
+       <app-selector-input
+        [options]="combustiveis()"
+        placeholder="Combustível"
+        icon="local_gas_station"
+        (valueChange)="onYearChange($event)"/>
+
       <button class="btn btn-primary btn-lg">
-        
         <span class="app-icon">search</span> Pesquisar
       </button>
     </div>

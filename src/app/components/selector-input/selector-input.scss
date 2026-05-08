@@ -1,0 +1,134 @@
+@use 'variables' as *;
+.selector-input {
+  position: relative;
+  width: 100%;
+  min-width: 220px;
+  overflow: visible;
+}
+
+.selector-trigger {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border: none;
+  outline: none;
+  border-radius: $radius-lg;
+  background: $white;
+  box-shadow: $shadow-sm;
+  transition: $transition;
+  cursor: pointer;
+  &:hover {
+    background: $surface-low;
+  }
+
+}
+
+.selector-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.selector-label {
+  color: $primary;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.selector-arrow {
+  color: $slate-500;
+  transition: transform 200ms ease;
+  &.open {
+    transform: rotate(180deg);
+  }
+
+}
+
+.icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 22px;
+  color: $slate-400;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  border-radius: $radius-xl;
+  background: $white;
+  box-shadow: $shadow-lg;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 999;
+  max-height: 240px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  animation:
+    dropdownShow
+    200ms
+    cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $surface-highest;
+    border-radius: $radius-full;
+    &:hover {
+      background: $slate-400;
+    }
+
+  }
+
+}
+
+.dropdown-option {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 12px 14px;
+  border-radius: $radius-lg;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: $primary;
+  cursor: pointer;
+  transition: $transition;
+  &:hover {
+    background: $surface-high;
+  }
+
+  &.selected {
+    background: $surface-highest;
+    font-weight: 600;
+  }
+
+}
+
+@keyframes dropdownShow {
+  0% {
+    opacity: 0;
+    transform:
+      translateY(-8px)
+      scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
