@@ -63,7 +63,6 @@
         background-color: $primary-dark;
         border-color: $primary-dark;
         color: $white;
-        transform: translateY(-2px);
         box-shadow: $shadow-sm;
       }
     }
@@ -73,6 +72,14 @@
   .btn-wa {
     background: $green-wa;
     color: $white;
+
+     &:hover,
+      &:focus-visible {
+        background-color: $green-wa-dark;
+        border-color: $primary-dark;
+        color: $white;
+        box-shadow: $shadow-sm;
+      }
   }
 
   .chip{
