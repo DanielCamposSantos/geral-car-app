@@ -1,0 +1,49 @@
+<section class="detail-page">
+  <div class="container">
+    <div class="detail-back">
+      <span class="app-icon">arrow_back</span>
+      Voltar ao catálogo
+    </div>
+
+    <app-galery
+    [images]="veiculoAtual().imagens"
+    [veiculo]="veiculoAtual()"
+    ></app-galery>
+
+      <div class="detail-info">
+        <div class="detail-card">
+          <div class="detail-title">{{ veiculoAtual().marca }} {{
+            veiculoAtual().modelo }}</div>
+          <div class="detail-subtitle">{{ veiculoAtual().ano }} • {{
+            veiculoAtual().cor }}</div>
+          <div class="detail-specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Quilometragem</span>
+              <span class="spec-value">{{ veiculoAtual().quilometragem |
+                number:'1.0-0' }} km</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Combustível</span>
+              <span class="spec-value">{{ veiculoAtual().combustivel
+                }}</span>
+            </div>
+          </div>
+          <p class="detail-desc">{{ veiculoAtual().descricao }}</p>
+        </div>
+
+        <div class="detail-card cta-section">
+          <button class="btn btn-primary">Entrar em contato</button>
+          <button class="btn btn-outline">Agendar visita</button>
+          <div class="seller-card">
+            <div class="seller-avatar">
+              <span class="app-icon">person</span>
+            </div>
+            <div class="seller-info">
+              <h4>Atendimento Geral Car</h4>
+              <p>Disponível via WhatsApp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

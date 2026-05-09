@@ -1,22 +1,39 @@
-import { Component, computed, input, Input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { environment } from '../../../environments/environment.development';
 import { CommonModule } from '@angular/common';
-
+import { Veiculo } from '../../services/veiculo';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-card',
-  imports: [CommonModule,],
+  imports: [CommonModule],
   templateUrl: './vehicle-card.html',
   styleUrl: './vehicle-card.scss',
 })
 export class VehicleCard {
+  private router = inject(Router);
 
-  @Input() veiculo: VeiculoGetResponse | undefined;
+  private veiculoService = inject(Veiculo);
 
-  realImagePath = computed(() => `${environment.API_URL}/${this.veiculo?.imagens[0].imagePath}`)
+  veiculo =
+    input.required<VeiculoGetResponse>();
 
-  whatsappUrl = input.required<string>()
+  whatsappUrl =
+    input.required<string>();
 
+  realImagePath = computed(() => {
+    return `${environment.API_URL}/${
+      this.veiculo().imagens[0].imagePath
+    }`;
+  });
 
+  openDetails() {
+    this.veiculoService.selectVehicle(this.veiculo());
+
+    this.router.navigate([
+      '/detalhes',
+      this.veiculo().id
+    ]);
+  }
 }

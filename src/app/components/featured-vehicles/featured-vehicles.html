@@ -8,19 +8,19 @@
       <button class="btn btn-outline">Ver todos <span
           class="app-icon">arrow_forward</span></button>
     </div>
-   @if (veiculosCompleto().length > 0) {
-  <div class="vehicle-grid">
-    <!-- Usamos o limitados aqui para renderizar apenas 4 -->
-    @for (item of veiculosLimitados(); track item.id) {
-      <app-vehicle-card [veiculo]="item" [whatsappUrl]="generateWhatsappLink(item.marca,item.modelo)"></app-vehicle-card>
+    @if (veiculosCompleto().length > 0) {
+    <div class="vehicle-grid">
+      @for (item of veiculosLimitados(); track item.id) {
+      <app-vehicle-card [veiculo]="item"
+        [whatsappUrl]="generateWhatsappLink(item.marca,item.modelo)"></app-vehicle-card>
+      }
+    </div>
+    } @else {
+    <div class="empty-state">
+      <h2>Nenhum veículo disponível</h2>
+      <p>Volte mais tarde ou ajuste os filtros.</p>
+    </div>
     }
-  </div>
-} @else {
-  <div class="empty-state">
-    <h2>Nenhum veículo disponível</h2>
-    <p>Volte mais tarde ou ajuste os filtros.</p>
-  </div>
-}
 
   </div>
 </section>

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Veiculo } from '../../services/veiculo';
 import { VehicleCard } from '../vehicle-card/vehicle-card';
 

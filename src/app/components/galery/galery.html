@@ -1,0 +1,17 @@
+<div class="gallery">
+  <div class="gallery-main">
+    <img [src]="getImageUrl(currentMainImage())"
+         [alt]="veiculo().marca + ' ' + veiculo().modelo" />
+  </div>
+  
+  <div class="gallery-thumbs">
+    @for (image of images(); track image.id; let i = $index) {
+      <div class="gallery-thumb"
+           [class.active]="i === selectedImageIndex()"
+           (click)="selecionarImagem(image)">
+        <img [src]="getImageUrl(image)"
+             [alt]="veiculo().marca + ' thumbnail'" />
+      </div>
+    }
+  </div>
+</div>

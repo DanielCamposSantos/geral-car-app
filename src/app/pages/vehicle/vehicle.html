@@ -1,0 +1,14 @@
+<app-header />
+@if (veiculo()) {
+  <app-vehicle-detail [veiculo]="veiculo()!" />
+} @else {
+  <section class="detail-loading">
+    <div class="container">
+      @if (loading()) {
+        <p>Carregando veículo...</p>
+      } @else {
+        <p>{{ error() || 'Veículo não encontrado.' }}</p>
+      }
+    </div>
+  </section>
+}
