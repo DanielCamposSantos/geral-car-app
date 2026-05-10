@@ -1,39 +1,36 @@
 <section class="detail-page">
   <div class="container">
-    <div class="detail-back">
+    <div class="detail-back" (click)="onBack()">
       <span class="app-icon">arrow_back</span>
       Voltar ao catálogo
     </div>
+    <div class="detail-layout">
+      <div class="gallery-section">
+        <app-galery
+          [images]="veiculoAtual().imagens"
+          [veiculo]="veiculoAtual()">
+        </app-galery>
 
-    <app-galery
-    [images]="veiculoAtual().imagens"
-    [veiculo]="veiculoAtual()"
-    ></app-galery>
+        <div class="specs-card">  
+          <h3>Especificações Técnicas</h3>
+          <app-specs-table
+            [veiculo]="veiculoAtual()"></app-specs-table>
+        </div>
+      </div>
 
-      <div class="detail-info">
+      <div class="info-section">
+
         <div class="detail-card">
-          <div class="detail-title">{{ veiculoAtual().marca }} {{
-            veiculoAtual().modelo }}</div>
-          <div class="detail-subtitle">{{ veiculoAtual().ano }} • {{
-            veiculoAtual().cor }}</div>
-          <div class="detail-specs-grid">
-            <div class="spec-item">
-              <span class="spec-label">Quilometragem</span>
-              <span class="spec-value">{{ veiculoAtual().quilometragem |
-                number:'1.0-0' }} km</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Combustível</span>
-              <span class="spec-value">{{ veiculoAtual().combustivel
-                }}</span>
-            </div>
-          </div>
+          <div class="detail-title">{{ veiculoTitle() }}</div>
+          <div class="detail-subtitle">{{ veiculoSubtitle() }}</div>
+        </div>
+
+        <div class="detail-card">
+          <h3 class="descricao-title">Descrição</h3>
           <p class="detail-desc">{{ veiculoAtual().descricao }}</p>
         </div>
 
-        <div class="detail-card cta-section">
-          <button class="btn btn-primary">Entrar em contato</button>
-          <button class="btn btn-outline">Agendar visita</button>
+        <div class="detail-card cta-card">
           <div class="seller-card">
             <div class="seller-avatar">
               <span class="app-icon">person</span>
@@ -43,7 +40,12 @@
               <p>Disponível via WhatsApp</p>
             </div>
           </div>
+          <div class="cta-buttons">
+            <button class="btn btn-primary">Entrar em contato</button>
+            <button class="btn btn-outline">Agendar visita</button>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 </section>

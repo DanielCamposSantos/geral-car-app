@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    .spec-item {
+        background: $surface-low;
+        border-radius: $radius-md;
+        padding: 12px;
+    }
+
+    .spec-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        color: $slate-500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+
+    .spec-value {
+        font-size: 15px;
+        font-weight: 700;
+        color: $on-surface;
+    }
+}

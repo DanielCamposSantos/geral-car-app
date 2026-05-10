@@ -1,0 +1,27 @@
+<div class="specs-grid">
+    <div class="spec-item">
+        <span class="spec-label">Marca</span>
+        <span class="spec-value">{{ veiculoAtual().marca }}</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Modelo</span>
+        <span class="spec-value">{{ veiculoAtual().modelo }}</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Ano</span>
+        <span class="spec-value">{{ veiculoAtual().ano }}</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Cor</span>
+        <span class="spec-value">{{ veiculoAtual().cor }}</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Combustível</span>
+        <span class="spec-value">{{ veiculoAtual().combustivel }}</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Quilometragem</span>
+        <span class="spec-value">{{ veiculoAtual().quilometragem | number}}
+            km</span>
+    </div>
+</div>

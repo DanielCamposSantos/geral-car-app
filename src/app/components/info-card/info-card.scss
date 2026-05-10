@@ -1,0 +1,10 @@
+@use "variables" as *;
+
+.detail-card {
+    background: $white;
+    border-radius: $radius-xl;
+    padding: 24px;
+    box-shadow: $shadow-sm;
+
+
+}
