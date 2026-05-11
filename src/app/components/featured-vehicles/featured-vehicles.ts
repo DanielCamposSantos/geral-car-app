@@ -1,6 +1,6 @@
-import { Component, computed, inject } from '@angular/core';
-import { Veiculo } from '../../services/veiculo';
+﻿import { Component, computed, input } from '@angular/core';
 import { VehicleCard } from '../vehicle-card/vehicle-card';
+import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 
 @Component({
   selector: 'app-featured-vehicles',
@@ -9,17 +9,19 @@ import { VehicleCard } from '../vehicle-card/vehicle-card';
   styleUrl: './featured-vehicles.scss',
 })
 export class FeaturedVehicles {
+  veiculos = input.required<VeiculoGetResponse[]>();
+  loading = input(false)
 
-  veiculoService = inject(Veiculo);
+  mostrarEmpty = computed(() => {
+    return !this.loading() && this.veiculos().length === 0;
+  });
 
-  veiculosCompleto = computed(() => this.veiculoService.page().content || []);
+  veiculosLimitados = computed(() => this.veiculos().slice(0, 4));
 
-  veiculosLimitados = computed(() => this.veiculosCompleto().slice(0, 4));
-
-  generateWhatsappLink(marca:string,modelo:string){
-    const NUMBER :string = "5571982615500"
-    const ZAP_URL:string = `https://wa.me/${NUMBER}?text=`
-    const MENSSAGEM:string = `Ol%C3%A1%2C%20quero%20falar%20sobre%20o%20${marca}%20${modelo}`
-    return `${ZAP_URL}${MENSSAGEM}`;
+  generateWhatsappLink(marca: string, modelo: string) {
+    const NUMBER = '5571982615500';
+    const ZAP_URL = `https://wa.me/${NUMBER}?text=`;
+    const MENSAGEM = `Ol%C3%A1%2C%20quero%20falar%20sobre%20o%20${marca}%20${modelo}`;
+    return `${ZAP_URL}${MENSAGEM}`;
   }
 }

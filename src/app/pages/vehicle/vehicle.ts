@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { Header } from "../../components/header/header";
 import { VehicleDetail } from "../../components/vehicle-detail/vehicle-detail";
-import { Veiculo } from '../../services/veiculo';
+import { VeiculoService } from '../../services/veiculo';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 
 @Component({
@@ -15,7 +15,7 @@ export class Vehicle {
 
   idNumerico = computed(() => Number(this.id()));
 
-  private veiculoService = inject(Veiculo);
+  private veiculoService = inject(VeiculoService);
 
   veiculo = signal<VeiculoGetResponse | null>(null);
   loading = signal(true);

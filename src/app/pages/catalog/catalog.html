@@ -1,10 +1,9 @@
 <app-primary-page-layout>
-  <app-landing-page-content
+    <app-catalog-page-content
     [veiculos]="veiculos()"
     [filtros]="filtros()"
     [loading]="loading()"
     [error]="error()"
-    (search)="onFilter($event)"
     (retry)="retry()"
-  ></app-landing-page-content>
+    ></app-catalog-page-content>
 </app-primary-page-layout>

@@ -1,8 +1,8 @@
 export enum TipoCombustivel {
-    GASOLINA,
-    ETANOL,
-    FLEX,
-    DIESEL,
-    GNV,
-    ELETRICO
+    GASOLINA = 'GASOLINA',
+    ETANOL = 'ETANOL',
+    FLEX = 'FLEX',
+    DIESEL = 'DIESEL',
+    GNV = 'GNV',
+    ELETRICO = 'ELETRICO'
 }

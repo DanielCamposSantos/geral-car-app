@@ -19,13 +19,13 @@
         icon="calendar_today"
         (valueChange)="onYearChange($event)"/>
 
-       <app-selector-input
+      <app-selector-input
         [options]="combustiveis()"
         placeholder="Combustível"
         icon="local_gas_station"
-        (valueChange)="onYearChange($event)"/>
+        (valueChange)="onFuelChange($event)"/>
 
-      <button class="btn btn-primary btn-lg">
+      <button class="btn btn-primary btn-lg" (click)="searchVehicles()">
         <span class="app-icon">search</span> Pesquisar
       </button>
     </div>

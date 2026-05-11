@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { environment } from '../../../environments/environment.development';
 import { CommonModule } from '@angular/common';
-import { Veiculo } from '../../services/veiculo';
+import { VeiculoService } from '../../services/veiculo';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class VehicleCard {
   private router = inject(Router);
 
-  private veiculoService = inject(Veiculo);
+  private veiculoService = inject(VeiculoService);
 
   veiculo =
     input.required<VeiculoGetResponse>();

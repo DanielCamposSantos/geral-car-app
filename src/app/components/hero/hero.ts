@@ -1,16 +1,14 @@
-import {
+﻿import {
   Component,
   computed,
-  inject,
+  input,
+  output,
   signal
 } from '@angular/core';
-
-import { Veiculo } from '../../services/veiculo';
-
-import {
-  SelectorInput,
-  SelectorOption
-} from '../selector-input/selector-input';
+import { SelectorInput, SelectorOption } from '../selector-input/selector-input';
+import { Filtros } from '../../models/filtros';
+import { VeiculoFilter } from '../../models/veiculo-filter';
+import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
 
 @Component({
   selector: 'app-hero',
@@ -19,18 +17,13 @@ import {
   styleUrl: './hero.scss',
 })
 export class Hero {
-
-  veiculoService = inject(Veiculo);
-
-  filterOptions = this.veiculoService.filtros;
-
-  totalVeiculos = computed(() =>
-    this.veiculoService.page().totalElements
-  );
+  filtros = input.required<Filtros>();
+  totalVeiculos = input.required<number>();
+  search = output<VeiculoFilter>();
 
   filters = signal({
     ano: null as number | null,
-    combustivel: null as string | null
+    combustivel: null as TipoCombustivel | null
   });
 
   anos = computed<SelectorOption<number | null>[]>(() => [
@@ -38,30 +31,42 @@ export class Hero {
       label: 'Qualquer ano',
       value: null
     },
-    ...this.filterOptions().anos.map(ano => ({
+    ...this.filtros().anos.map(ano => ({
       label: String(ano),
       value: ano
     }))
   ]);
 
-  combustiveis = computed<SelectorOption<string | null>[]>(() => [
+  combustiveis = computed<SelectorOption<TipoCombustivel | null>[]>(() => [
     {
-      label: "Combustível",
+      label: 'Combustível',
       value: null
     },
-    ...this.filterOptions().combustiveis.map(combustivel => ({
+    ...this.filtros().combustiveis.map(combustivel => ({
       label: combustivel,
-      value: combustivel
+      value: combustivel as TipoCombustivel
     }))
-  ])
-
+  ]);
 
   onYearChange(year: number | null) {
     this.filters.update(filters => ({
       ...filters,
       ano: year
     }));
-
   }
 
+  onFuelChange(combustivel: TipoCombustivel | null) {
+    this.filters.update(filters => ({
+      ...filters,
+      combustivel
+    }));
+  }
+
+  searchVehicles() {
+    const { ano, combustivel } = this.filters();
+    this.search.emit({
+      ...(ano !== null ? { ano } : {}),
+      ...(combustivel !== null ? { combustivel } : {})
+    });
+  }
 }
