@@ -11,5 +11,6 @@ export interface VeiculoGetResponse {
     descricao: string,
     combustivel: TipoCombustivel,
     avaliacao: number,
+    destaque: boolean,
     imagens: ImagemGetResponse[]
 }

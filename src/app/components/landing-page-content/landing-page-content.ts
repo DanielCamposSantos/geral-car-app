@@ -15,6 +15,7 @@ import { VeiculoFilter } from '../../models/veiculo-filter';
 export class LandingPageContent {
   veiculos = input.required<Page<VeiculoGetResponse>>();
   filtros = input.required<Filtros>();
+  destaques = input.required<boolean[]>
   loading = input(false);
   error = input<string | null>(null);
   search = output<VeiculoFilter>();

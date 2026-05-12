@@ -1,0 +1,14 @@
+<main class="admin-main">
+  <section class="admin-topbar">
+    <div>
+      <h1>{{title()}}</h1>
+      <p>{{subtext()}}</p>
+    </div>
+    <button class="btn btn-primary" (click)="openModal.emit()">
+      <span class="app-icon">add</span>
+      {{btnContent()}}
+    </button>
+  </section>
+
+  <ng-content></ng-content>
+</main>

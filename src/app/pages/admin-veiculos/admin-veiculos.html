@@ -1,0 +1,47 @@
+<div class="admin-page">
+    <div class="admin-layout">
+        <app-side-bar-admin></app-side-bar-admin>
+        <app-admin-main-content
+            title="Gerenciar Veículos"
+            subtext="Cadastre, edite ou remova veículos do catálogo"
+            btnContent="Novo Veículo"
+            (openModal)="openModal()"
+            >
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="icon icon-fill">directions_car</span>
+                    <div class="num">{{ totalVehicles() }}</div>
+                    <div class="label">Veículos no estoque</div>
+                </div>
+                <div class="stat-card">
+                    <span class="icon icon-fill">star</span>
+                    <div class="num"> featuredCount </div>
+                    <div class="label">Em destaque</div>
+                </div>
+                <div class="stat-card">
+                    <span class="icon icon-fill">chat_bubble</span>
+                    <div class="num"> testimonialCount </div>
+                    <div class="label">Depoimentos</div>
+                </div>
+                <div class="stat-card">
+                    <span class="icon icon-fill">trending_up</span>
+                    <div class="num"> brandsCount </div>
+                    <div class="label">Marcas cadastradas</div>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                
+            </div>
+
+        </app-admin-main-content>
+
+        @if(showModal()) {
+          <div class="modal-overlay" (click)="closeModal()">
+            <div class="modal" (click)="$event.stopPropagation()">
+              <app-modal-content></app-modal-content>
+            </div>
+          </div>
+        }
+    </div>
+</div>

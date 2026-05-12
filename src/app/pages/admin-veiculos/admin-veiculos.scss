@@ -1,0 +1,102 @@
+@use 'variables' as *;
+
+.admin-page {
+  min-height: 100vh;
+  background: $surface;
+  height: 100%;
+
+  .admin-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+    height: 100%;
+
+    .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+
+    .stat-card {
+      background: $white;
+      border-radius: $radius-xl;
+      padding: 20px;
+      box-shadow: $shadow-sm;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+      }
+
+      .icon {
+        font-size: 32px;
+        color: $primary;
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+
+      .num {
+        font-size: 28px;
+        font-weight: 900;
+        margin: 8px 0;
+      }
+
+      .label {
+        font-size: 13px;
+        color: $slate-500;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .admin-card {
+    background: $white;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+
+    .admin-card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid $surface-high;
+
+      h2 {
+        font-size: 16px;
+        font-weight: 700;
+      }
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th,
+        td {
+          padding: 14px 16px;
+          font-size: 14px;
+          border-bottom: 1px solid $surface-high;
+          text-align: left;
+        }
+
+        th {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: .05em;
+          text-transform: uppercase;
+          color: $slate-500;
+          background: $surface-low;
+        }
+
+        tr:hover td {
+          background: $surface-low;
+        }
+      }
+    }
+  }
+
+  }
+}
+
