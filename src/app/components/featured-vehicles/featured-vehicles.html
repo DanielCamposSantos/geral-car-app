@@ -5,8 +5,8 @@
         <h2>Destaques do Estoque</h2>
         <p>Os melhores veículos selecionados para você</p>
       </div>
-      <button class="btn btn-outline">Ver todos <span
-          class="app-icon">arrow_forward</span></button>
+      <a class="btn btn-outline" [routerLink]="['/catalog']">Ver todos <span
+          class="app-icon">arrow_forward</span></a>
     </div>
     
     @if (loading()) {

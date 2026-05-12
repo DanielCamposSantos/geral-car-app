@@ -3,6 +3,7 @@ import { PrimaryPageLayout } from '../../components/primary-page-layout/primary-
 import { LandingPageContent } from "../../components/landing-page-content/landing-page-content";
 import { VeiculoService } from '../../services/veiculo';
 import { VeiculoFilter } from '../../models/veiculo-filter';
+import { WhatsappService } from '../../services/whatsapp';
 
 @Component({
   selector: 'app-landing-page',

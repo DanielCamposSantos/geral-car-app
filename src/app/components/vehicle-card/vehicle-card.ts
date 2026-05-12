@@ -16,11 +16,9 @@ export class VehicleCard {
 
   private veiculoService = inject(VeiculoService);
 
-  veiculo =
-    input.required<VeiculoGetResponse>();
+  veiculo =  input.required<VeiculoGetResponse>();
 
-  whatsappUrl =
-    input.required<string>();
+  whatsappUrl = input.required<string>();
 
   realImagePath = computed(() => {
     return `${environment.API_URL}/${

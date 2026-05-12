@@ -1,26 +1,125 @@
+@use '@angular/material' as mat;
+@use 'variables' as *;
+
+.catalog-layout {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  padding: 24px;
+
+  .filters-sidebar {
+    flex: 0 0 280px;
+    
+    .placeholder-filters {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e9ecef;
+      
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: $slate-700;
+      }
+      
+      p {
+        color: $slate-500;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .catalog-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .vehicles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    mat-paginator {
+      @include mat.paginator-overrides((
+        container-text-color: $primary,
+        container-background-color: white,
+      ));
+    }
+  }
+}
+
 .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  min-height: 400px;
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba($primary, 0.2);
+    border-top: 4px solid $primary;
+    border-right: 4px solid $primary;
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  }
+
+  p {
+    margin-top: 1.5rem;
+    color: $slate-600;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.error-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(#e74c3c, 0.05) 0%, rgba(#e74c3c, 0.02) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(#e74c3c, 0.2);
+  max-width: 600px;
+  margin: 40px auto;
+
+  p {
+    color: #e74c3c;
+    margin-bottom: 1.5rem;
+    font-size: 18px;
+  }
+
+  button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(#e74c3c, 0.3);
     }
-    
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #3498db;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+
+    &:active {
+      transform: translateY(0);
     }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .error-container {
-      text-align: center;
-      padding: 2rem;
-      color: #e74c3c;
-    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,16 +1,41 @@
 @if (loading()) {
-<div class="loading-container">
+  <div class="loading-container">
     <div class="spinner"></div>
     <p>Carregando veículos...</p>
-</div>
+  </div>
 } @else if (error()) {
-<div class="error-container">
+  <div class="error-container">
     <p>{{ error() }}</p>
     <button (click)="retry.emit()">Tentar novamente</button>
-</div>
+  </div>
 } @else {
-<!-- Seu conteúdo normal aqui -->
-@for (vehicle of veiculos().content; track vehicle.id) {
-<div>{{ vehicle.modelo }}</div>
-}
+  <div class="catalog-layout">
+    <aside class="filters-sidebar">
+      <div class="placeholder-filters">
+        <h3>Filtros</h3>
+        <p>Componente de filtros será implementado aqui</p>
+      </div>
+    </aside>
+    
+    <main class="catalog-content">
+      <div class="vehicles-list">
+        @for (veiculo of veiculos().content; track veiculo.id) {
+          <app-vehicle-card 
+            [veiculo]="veiculo"
+            [whatsappUrl]="generateWhatsappLink(veiculo.marca, veiculo.modelo)">
+          </app-vehicle-card>
+        }
+      </div>
+      
+      <mat-paginator 
+        [length]="veiculos().totalElements"
+        [pageSize]="veiculos().size"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        [pageIndex]="veiculos().number"
+        (page)="onPageChange($event)"
+        aria-label="Selecionar página"
+        showFirstLastButtons>
+      </mat-paginator>
+    </main>
+  </div>
 }
