@@ -14,20 +14,20 @@
         <div class="spinner"></div>
         <p>Carregando veículos...</p>
       </div>
+    } @else if (mostrarEmpty()) {
+      <div class="empty-state">
+        <h2>Nenhum veículo disponível</h2>
+        <p>Volte mais tarde ou ajuste os filtros.</p>
+      </div>
     } @else {
-      @if (veiculos().length > 0) {
-        <div class="vehicle-grid">
-          @for (item of veiculosLimitados(); track item.id) {
-            <app-vehicle-card [veiculo]="item"
-              [whatsappUrl]="generateWhatsappLink(item.marca, item.modelo)"></app-vehicle-card>
-          }
-        </div>
-      } @else {
-        <div class="empty-state">
-          <h2>Nenhum veículo disponível</h2>
-          <p>Volte mais tarde ou ajuste os filtros.</p>
-        </div>
-      }
+      <div class="vehicle-grid">
+        @for (item of veiculosLimitados(); track item.id) {
+          <app-vehicle-card 
+            [veiculo]="item"
+            [whatsappUrl]="generateWhatsappLink(item.marca, item.modelo)">
+          </app-vehicle-card>
+        }
+      </div>
     }
   </div>
 </section>

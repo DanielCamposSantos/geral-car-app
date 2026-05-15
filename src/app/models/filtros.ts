@@ -1,4 +1,6 @@
 export interface Filtros {
-    anos:number[]
-    combustiveis:string[]
+  marcas: string[];
+  modelos: string[];
+  anos: number[];
+  combustiveis: string[];
 }

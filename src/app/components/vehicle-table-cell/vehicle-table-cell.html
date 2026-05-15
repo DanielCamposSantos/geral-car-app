@@ -1,0 +1,9 @@
+<a class="vehicle-info" (click)="openDetails()">
+  <div class="vehicle-image">
+    <img [src]="realImagePath()" [alt]="veiculo().modelo">
+  </div>
+  <div class="vehicle-details">
+    <div class="vehicle-name">{{ veiculo().marca }} {{ veiculo().modelo }}</div>
+    <div class="vehicle-meta">{{ veiculo().ano }} . {{ veiculo().cor }}</div>
+  </div>
+</a>

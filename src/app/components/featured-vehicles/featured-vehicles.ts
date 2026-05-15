@@ -16,13 +16,11 @@ export class FeaturedVehicles {
   veiculos = input.required<VeiculoGetResponse[]>();
   loading = input(false)
 
-  
-
   mostrarEmpty = computed(() => {
     return !this.loading() && this.veiculos().length === 0;
   });
 
-  veiculosLimitados = computed(() => this.veiculos().slice(0, 4));
+  veiculosLimitados = computed(() => this.veiculos());
 
   generateWhatsappLink(marca: string, modelo: string) {
     return this.whatsappService.generateLink(marca, modelo);

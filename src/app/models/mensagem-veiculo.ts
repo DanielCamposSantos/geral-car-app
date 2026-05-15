@@ -1,4 +1,4 @@
-export interface MenssagemVeiculo {
+export interface MensagemVeiculo {
   marca: string;
   modelo: string;
 }

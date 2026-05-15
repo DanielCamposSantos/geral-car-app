@@ -1,47 +1,105 @@
 <div class="admin-page">
-    <div class="admin-layout">
-        <app-side-bar-admin></app-side-bar-admin>
-        <app-admin-main-content
-            title="Gerenciar Veículos"
-            subtext="Cadastre, edite ou remova veículos do catálogo"
-            btnContent="Novo Veículo"
-            (openModal)="openModal()"
-            >
-            <div class="stats-row">
-                <div class="stat-card">
-                    <span class="icon icon-fill">directions_car</span>
-                    <div class="num">{{ totalVehicles() }}</div>
-                    <div class="label">Veículos no estoque</div>
-                </div>
-                <div class="stat-card">
-                    <span class="icon icon-fill">star</span>
-                    <div class="num"> featuredCount </div>
-                    <div class="label">Em destaque</div>
-                </div>
-                <div class="stat-card">
-                    <span class="icon icon-fill">chat_bubble</span>
-                    <div class="num"> testimonialCount </div>
-                    <div class="label">Depoimentos</div>
-                </div>
-                <div class="stat-card">
-                    <span class="icon icon-fill">trending_up</span>
-                    <div class="num"> brandsCount </div>
-                    <div class="label">Marcas cadastradas</div>
-                </div>
-            </div>
+  <div class="admin-layout">
+    <app-side-bar-admin></app-side-bar-admin>
 
-            <div class="admin-card">
-                
-            </div>
+    <main class="admin-main">
+      <section class="admin-topbar">
+        <div>
+          <h1>Gerenciar Veículos</h1>
+          <p>Cadastre, edite ou remova veículos do catálogo</p>
+        </div>
+        <button class="btn btn-primary" (click)="openModal()">
+          <span class="app-icon">add</span>
+          Novo Veículo
+        </button>
+      </section>
 
-        </app-admin-main-content>
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="app-icon app-icon-fill">directions_car</span>
+          <div class="num">{{ totalVehicles() }}</div>
+          <div class="label">Veículos no estoque</div>
+        </div>
+        <div class="stat-card">
+          <span class="app-icon app-icon-fill">star</span>
+          <div class="num">{{ totalDestaques() }}</div>
+          <div class="label">Em destaque</div>
+        </div>
+      </div>
 
-        @if(showModal()) {
-          <div class="modal-overlay" (click)="closeModal()">
-            <div class="modal" (click)="$event.stopPropagation()">
-              <app-modal-content></app-modal-content>
-            </div>
-          </div>
-        }
+      <div class="admin-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Veículo</th>
+                <th>Marca</th>
+                <th>Ano</th>
+                <th>KM</th>
+                <th>Destaque</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (veiculo of veiculos().content; track veiculo.id) {
+              <tr>
+                <td>
+                  <app-vehicle-table-cell [veiculo]="veiculo"  />
+                </td>
+                <td>{{ veiculo.marca }}</td>
+                <td>{{ veiculo.ano }}</td>
+                <td>{{ veiculo.quilometragem | number }} km</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    [checked]="veiculo.destaque"
+                    (change)="toggleDestaque(veiculo, $event)">
+                </td>
+                <td>
+                  <button class="btn-icon" title="Editar"
+                    (click)="openEditModal(veiculo)">
+                    <span class="app-icon">edit</span>
+                  </button>
+                  <button class="btn-icon" title="Excluir"
+                    (click)="deleteVeiculo(veiculo)">
+                    <span class="app-icon">delete</span>
+                  </button>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="6" class="empty-table">
+                  Nenhum veículo cadastrado
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    @if(showModal()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <app-modal-content
+          (close)="closeModal()"
+          (submit)="createVeiculo($event)">
+        </app-modal-content>
+      </div>
     </div>
+    }
+
+    @if(showEditModal() && selectedVehicle()) {
+    <div class="modal-overlay" (click)="closeEditModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <app-modal-edit-content
+          [veiculo]="selectedVehicle()!"
+          (close)="closeEditModal()"
+          (submit)="updateVeiculo($event)">
+        </app-modal-edit-content>
+      </div>
+    </div>
+    }
+  </div>
 </div>

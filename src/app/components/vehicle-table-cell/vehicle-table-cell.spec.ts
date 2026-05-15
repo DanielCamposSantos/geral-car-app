@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminMainContent } from './admin-main-content';
+import { VehicleTableCell } from './vehicle-table-cell';
 
-describe('AdminMainContent', () => {
-  let component: AdminMainContent;
-  let fixture: ComponentFixture<AdminMainContent>;
+describe('VehicleTableCell', () => {
+  let component: VehicleTableCell;
+  let fixture: ComponentFixture<VehicleTableCell>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminMainContent],
+      imports: [VehicleTableCell],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminMainContent);
+    fixture = TestBed.createComponent(VehicleTableCell);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

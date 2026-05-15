@@ -9,27 +9,22 @@
       <em>dos seus sonhos</em><br />
       na Geral Car.
     </h1>
-    <p>Veículos selecionados com especificações completas e contato direto com o
-      vendedor via WhatsApp.</p>
-
+    <p>Veículos selecionados com especificações completas e contato direto com o vendedor via WhatsApp.</p>
     <div class="search-box" id="hero-search-box">
       <app-selector-input
         [options]="anos()"
         placeholder="Qualquer ano"
         icon="calendar_today"
         (valueChange)="onYearChange($event)"/>
-
       <app-selector-input
         [options]="combustiveis()"
-        placeholder="Combustível"
+        placeholder="Qualquer combustível"
         icon="local_gas_station"
         (valueChange)="onFuelChange($event)"/>
-
       <button class="btn btn-primary btn-lg" (click)="searchVehicles()">
         <span class="app-icon">search</span> Pesquisar
       </button>
     </div>
-
     <div class="hero-stats">
       <div class="stat-item">
         <span class="stat-num">{{ totalVeiculos() }}</span>

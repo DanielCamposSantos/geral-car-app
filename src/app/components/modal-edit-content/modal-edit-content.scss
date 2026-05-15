@@ -10,6 +10,7 @@
     font-size: 20px;
     font-weight: 800;
     margin: 0;
+    color: $on-surface;
   }
 
   .modal-close {
@@ -26,6 +27,11 @@
 
     &:hover {
       background: $surface-high;
+    }
+
+    .app-icon {
+      font-size: 18px;
+      color: $slate-500;
     }
   }
 }
@@ -52,9 +58,7 @@
     color: $on-surface;
   }
 
-  input,
-  select,
-  textarea {
+  input, select, textarea {
     width: 100%;
     padding: 12px 14px;
     border: 1px solid $surface-high;
@@ -94,23 +98,11 @@
 
   input[type="number"] {
     -moz-appearance: textfield;
-
+    
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       opacity: 0.5;
     }
-  }
-
-  input[type="checkbox"] {
-    width: auto;
-    margin: 0;
-    cursor: pointer;
-  }
-
-  .error {
-    color: #e74c3c;
-    font-size: 12px;
-    margin-top: 4px;
   }
 
   .checkbox-label {
@@ -118,6 +110,12 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    
+    input {
+      width: auto;
+      margin: 0;
+      cursor: pointer;
+    }
 
     span {
       font-weight: 500;
@@ -129,38 +127,48 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
 
     .image-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 12px;
       padding: 8px 12px;
       background: $surface-low;
       border-radius: $radius-md;
       font-size: 13px;
-
+      
+      .image-thumb {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: $radius-md;
+        flex-shrink: 0;
+      }
+      
       span {
         color: $on-surface;
         word-break: break-all;
         flex: 1;
+        font-size: 13px;
       }
-
+      
       button {
         background: #e74c3c;
         color: white;
         border: none;
-        padding: 4px 8px;
+        padding: 6px 10px;
         border-radius: $radius-md;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 4px;
         transition: all $transition;
+        flex-shrink: 0;
 
         &:hover {
-          background: #c0392b;
+          background: darken(#e74c3c, 10%);
         }
 
         .app-icon {
@@ -179,42 +187,42 @@
   border-top: 1px solid $surface-high;
   background: $white;
   border-radius: 0 0 $radius-xl $radius-xl;
-}
 
-.btn-ghost {
-  background: transparent;
-  border: 1px solid $surface-high;
-  padding: 10px 24px;
-  border-radius: $radius-md;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  transition: all $transition;
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid $surface-high;
+    padding: 10px 24px;
+    border-radius: $radius-md;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all $transition;
 
-  &:hover {
-    background: $surface-low;
-    border-color: $slate-400;
-  }
-}
-
-.btn-primary {
-  background: $primary;
-  color: $white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: $radius-md;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  transition: all $transition;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    &:hover {
+      background: $surface-low;
+      border-color: $slate-400;
+    }
   }
 
-  &:hover:not(:disabled) {
-    background: $primary-dark;
-    transform: translateY(-1px);
+  .btn-primary {
+    background: $primary;
+    color: $white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: $radius-md;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all $transition;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: $primary-dark;
+      transform: translateY(-1px);
+    }
   }
 }

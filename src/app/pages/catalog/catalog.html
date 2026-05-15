@@ -1,9 +1,18 @@
 <app-primary-page-layout>
-    <app-catalog-page-content
-    [veiculos]="veiculos()"
-    [filtros]="filtros()"
-    [loading]="loading()"
-    [error]="error()"
-    (retry)="retry()"
-    ></app-catalog-page-content>
+  <div class="catalog-container">
+    <div class="filters-wrapper">
+      <app-catalog-filters
+        [filtros]="filtros()"
+        (filtersChange)="onFiltersChange($event)"/>
+    </div>
+    <div class="content-wrapper">
+      <app-catalog-page-content
+        [veiculos]="veiculos()"
+        [filtros]="filtros()"
+        [loading]="loading()"
+        [error]="error()"
+        (retry)="retry()"
+        (pageChange)="onPageChange($event)"/>
+    </div>
+  </div>
 </app-primary-page-layout>

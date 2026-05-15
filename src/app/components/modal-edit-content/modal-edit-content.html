@@ -1,51 +1,37 @@
 <div class="modal-header">
-  <h2>Novo Veículo</h2>
+  <h2>Editar Veículo</h2>
   <button class="modal-close" (click)="onClose()">
     <span class="app-icon">close</span>
   </button>
 </div>
 
-
-
 <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
   <div class="modal-grid">
     <div class="form-group">
       <label>Marca *</label>
-      <input type="text" formControlName="marca" placeholder="Ex: Toyota" />
-      @if (addForm.get('marca')?.invalid && addForm.get('marca')?.touched) {
-      <small class="error">Marca é obrigatória</small>
-      }
+      <input type="text" formControlName="marca" />
     </div>
 
     <div class="form-group">
       <label>Modelo *</label>
-      <input type="text" formControlName="modelo" placeholder="Ex: Hilux" />
-      @if (addForm.get('modelo')?.invalid && addForm.get('modelo')?.touched) {
-      <small class="error">Modelo é obrigatório</small>
-      }
+      <input type="text" formControlName="modelo" />
     </div>
 
     <div class="form-group">
       <label>Ano *</label>
       <input type="number" formControlName="ano" [min]="1950"
         [max]="currentYear" />
-      @if (addForm.get('ano')?.invalid && addForm.get('ano')?.touched) {
-      <small class="error">Ano deve estar entre 1950 e {{ currentYear }}</small>
-      }
     </div>
 
     <div class="form-group">
       <label>KM *</label>
-      <input type="number" formControlName="km" min="0" step="1000" />
-      @if (addForm.get('km')?.invalid && addForm.get('km')?.touched) {
-      <small class="error">KM não pode ser negativo</small>
-      }
+      <input type="number" formControlName="quilometragem" min="0"
+        step="1000" />
     </div>
 
     <div class="form-group">
       <label>Cor *</label>
-      <input type="text" formControlName="cor"
-        placeholder="Ex: Prata, Preto, Branco" />
+      <input type="text" formControlName="cor" />
     </div>
 
     <div class="form-group">
@@ -59,8 +45,7 @@
 
     <div class="form-group full">
       <label>Descrição</label>
-      <textarea formControlName="descricao" rows="4"
-        placeholder="Descrição completa do veículo..."></textarea>
+      <textarea formControlName="descricao" rows="4"></textarea>
     </div>
 
     <div class="form-group full">
@@ -68,12 +53,17 @@
       <input type="file" multiple (change)="onFileSelected($event)"
         accept="image/jpeg,image/png,image/webp" />
 
-      @if (addForm.value.imagens && addForm.value.imagens.length > 0) {
+      @if (getImagensParaExibir().length > 0) {
       <div class="image-preview">
-        @for (img of addForm.value.imagens; track $index) {
+        @for (img of getImagensParaExibir(); track $index) {
         <div class="image-item">
-          <span>{{ img.name }}</span>
-          <button type="button" (click)="removeImage($index)">
+          @if (img.imagePath) {
+          <img [src]="getImageUrl(img.imagePath)" class="image-thumb" />
+          } @else if (img.file) {
+          <img [src]="getObjectURL(img.file)" class="image-thumb" />
+          }
+          <span>{{ img.file?.name || 'Imagem existente' }}</span>
+          <button type="button" (click)="removeImagem($index)">
             <span class="app-icon">delete</span>
           </button>
         </div>
@@ -94,6 +84,6 @@
     <button type="button" class="btn btn-ghost"
       (click)="onClose()">Cancelar</button>
     <button type="submit" class="btn btn-primary"
-      [disabled]="addForm.invalid">Salvar Veículo</button>
+      [disabled]="addForm.invalid">Salvar Alterações</button>
   </div>
 </form>

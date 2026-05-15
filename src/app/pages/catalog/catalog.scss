@@ -1,0 +1,20 @@
+@use 'variables' as *;
+
+.catalog-container {
+  display: flex;
+  gap: 32px;
+  padding: 24px;
+  min-height: calc(100vh - 200px);
+
+  .filters-wrapper {
+    flex: 0 0 280px;
+    position: sticky;
+    top: 24px;
+    align-self: flex-start;
+  }
+
+  .content-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+}
