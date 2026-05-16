@@ -1,7 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { environment } from '../../../environments/environment.development';
-import { VeiculoService } from '../../services/veiculo';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,8 +12,6 @@ import { Router } from '@angular/router';
 export class VehicleTableCell {
   private router = inject(Router);
 
-  private veiculoService = inject(VeiculoService);
-
   veiculo = input.required<VeiculoGetResponse>()
 
   realImagePath = computed(() => {
@@ -23,11 +20,6 @@ export class VehicleTableCell {
   });
 
   openDetails() {
-    this.veiculoService.selectVehicle(this.veiculo());
-
-    this.router.navigate([
-      '/detalhes',
-      this.veiculo().id
-    ]);
+    this.router.navigate(['/detalhes', this.veiculo().id]);
   }
 }

@@ -1,7 +1,8 @@
-import { Component, computed, input, output, signal, ViewChild, effect } from "@angular/core";
+import { Component, computed, input, output, signal, ViewChild } from "@angular/core";
 import { SelectorInput, SelectorOption } from "../selector-input/selector-input";
 import { Filtros } from "../../models/filtros";
 import { TipoCombustivel } from "../../models/enums/tipo-combustivel";
+import { VeiculoFilter } from "../../models/veiculo-filter";
 
 interface FiltrosAplicados {
   marca?: string;
@@ -18,7 +19,7 @@ interface FiltrosAplicados {
 })
 export class CatalogFilters {
   filtros = input.required<Filtros>();
-  filtersChange = output<Record<string, unknown>>();
+  filtersChange = output<Partial<VeiculoFilter>>();
 
   @ViewChild('marcaSelector') marcaSelector!: SelectorInput;
   @ViewChild('modeloSelector') modeloSelector!: SelectorInput;
@@ -66,7 +67,7 @@ export class CatalogFilters {
     if (ano !== null && ano !== undefined) filters.ano = ano;
     if (combustivel !== null && combustivel !== undefined) filters.combustivel = combustivel;
 
-    this.filtersChange.emit(filters as Record<string, unknown>);
+    this.filtersChange.emit(filters);
   }
   onMarcaChange(marca: string | null): void {
     this.currentMarca.set(marca);

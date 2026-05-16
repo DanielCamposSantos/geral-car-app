@@ -22,15 +22,7 @@ export class Vehicle {
   error = signal<string | null>(null);
 
   ngOnInit() {
-    const cached = this.veiculoService.findCachedVehicle(this.idNumerico());
-
-    if (cached) {
-      this.veiculo.set(cached);
-      this.loading.set(false);
-      return;
-    }
-
-    this.veiculoService.resolveVehicleById(this.idNumerico()).subscribe({
+    this.veiculoService.getById(this.idNumerico()).subscribe({
       next: data => {
         this.veiculo.set(data);
         this.loading.set(false);

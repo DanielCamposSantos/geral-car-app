@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +14,9 @@ import { VeiculoPostRequest } from '../../models/veiculo-post-request';
 import { VeiculoPostResponse } from '../../models/veiculo-post-response';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { VeiculoPutRequest } from '../../models/veiculo-put-request';
+import { VeiculoFilter } from '../../models/veiculo-filter';
+import { Page } from '../../models/Page';
+import { Filtros } from '../../models/filtros';
 
 @Component({
   selector: 'app-admin-veiculos',
@@ -29,18 +33,55 @@ export class AdminVeiculos implements OnInit {
   showEditModal = signal(false);
   selectedVehicle = signal<VeiculoGetResponse | null>(null);
 
-  veiculos = this.veiculoService.page
-  filtros = this.veiculoService.filtros
-  loading = this.veiculoService.loading
-  error = this.veiculoService.error
+  veiculos = signal<Page<VeiculoGetResponse>>({
+    content: [],
+    totalElements: 0,
+    totalPages: 0,
+    number: 0,
+    size: 6,
+  });
+  filtros = signal<Filtros>({
+    marcas: [],
+    modelos: [],
+    anos: [],
+    combustiveis: [],
+  });
+  loading = signal(false);
+  error = signal<string | null>(null);
 
   totalVehicles = computed(() => this.veiculos().totalElements);
   totalDestaques = signal(0);
 
   ngOnInit() {
-    this.veiculoService.getAll()
-    this.veiculoService.loadFiltros()
+    this.loadVehicles()
+    this.loadFilters()
     this.carregarTotalDestaques()
+  }
+
+  private loadVehicles(filters?: VeiculoFilter, page: number = 0, size: number = 6) {
+    this.loading.set(true);
+    this.error.set(null);
+    this.veiculoService.getAll(filters, page, size).subscribe({
+      next: pageData => {
+        this.veiculos.set(pageData);
+        this.loading.set(false);
+      },
+      error: err => {
+        console.error(err);
+        this.error.set('Não foi possível carregar os veículos');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  private loadFilters() {
+    this.veiculoService.loadFiltros().subscribe({
+      next: filtros => this.filtros.set(filtros),
+      error: err => {
+        console.error(err);
+        this.error.set('Não foi possível carregar os filtros');
+      }
+    });
   }
 
   carregarTotalDestaques() {
@@ -72,8 +113,8 @@ export class AdminVeiculos implements OnInit {
   }
 
   retry() {
-    this.veiculoService.getAll()
-    this.veiculoService.loadFiltros()
+    this.loadVehicles()
+    this.loadFilters()
     this.carregarTotalDestaques()
   }
 
@@ -98,7 +139,7 @@ export class AdminVeiculos implements OnInit {
   createVeiculo(data: VeiculoPostRequest) {
     this.veiculoService.create(data).subscribe({
       next: (response: VeiculoPostResponse) => {
-        this.veiculoService.getAll();
+        this.loadVehicles();
         this.carregarTotalDestaques();
         this.closeModal();
         this.showToast('Veículo criado com sucesso!', 'success');
@@ -116,14 +157,14 @@ export class AdminVeiculos implements OnInit {
         this.veiculoService.update(event.data).subscribe({
           next: async () => {
             for (const imagemId of event.imagensParaDeletar) {
-              await this.veiculoService.deleteImagem(event.data.id, imagemId).toPromise()
+              await firstValueFrom(this.veiculoService.deleteImagem(event.data.id, imagemId))
             }
 
             if (event.imagensParaAdicionar.length > 0) {
-              await this.veiculoService.addImagens(event.data.id, event.imagensParaAdicionar).toPromise()
+              await firstValueFrom(this.veiculoService.addImagens(event.data.id, event.imagensParaAdicionar))
             }
 
-            this.veiculoService.getAll();
+            this.loadVehicles();
             this.carregarTotalDestaques();
             this.closeEditModal();
             this.showToast('Veículo atualizado com sucesso!', 'success');
@@ -163,7 +204,7 @@ export class AdminVeiculos implements OnInit {
       if (confirmed) {
         this.veiculoService.delete(veiculo.id).subscribe({
           next: () => {
-            this.veiculoService.getAll();
+            this.loadVehicles();
             this.carregarTotalDestaques();
             this.showToast('Veículo excluído com sucesso!', 'success');
           },

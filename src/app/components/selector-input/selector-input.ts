@@ -9,7 +9,7 @@ import {
   signal
 } from '@angular/core';
 
-export interface SelectorOption<T = any> {
+export interface SelectorOption<T = unknown> {
   label: string;
   value: T;
 }
@@ -26,10 +26,10 @@ export class SelectorInput {
   options = input<SelectorOption[]>([]);
   placeholder = input('Selecionar');
   icon = input('expand_more');
-  valueChange = output<any>();
+  valueChange = output<unknown>();
   
   isOpen = signal(false);
-  selectedValue = signal<any>(null);
+  selectedValue = signal<unknown>(null);
   
   selectedLabel = computed(() => {
     const currentValue = this.selectedValue();

@@ -1,7 +1,7 @@
 import { Component, inject, input, output } from "@angular/core";
 import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import { Filtros } from "../../models/filtros";
-import { Page } from "../../models/page";
+import { Page } from "../../models/Page";
 import { VeiculoGetResponse } from "../../models/veiculo-get-response";
 import { VehicleCard } from "../vehicle-card/vehicle-card";
 import { WhatsappService } from "../../services/whatsapp";

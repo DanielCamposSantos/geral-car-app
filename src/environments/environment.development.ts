@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    API_URL: "http://localhost:8080"
+    API_URL: "https://organic-system-x5xrgrggrqw6hp7w6-8080.app.github.dev"
 };

@@ -31,12 +31,14 @@ export class Hero {
     }))
   ]);
   
-  onYearChange(year: number | null) {
-    this.filters.update(filters => ({ ...filters, ano: year }));
+  onYearChange(year: unknown) {
+    const value = typeof year === 'number' ? year : null;
+    this.filters.update(filters => ({ ...filters, ano: value }));
   }
   
-  onFuelChange(combustivel: TipoCombustivel | null) {
-    this.filters.update(filters => ({ ...filters, combustivel }));
+  onFuelChange(combustivel: unknown) {
+    const value = typeof combustivel === 'string' ? (combustivel as TipoCombustivel) : null;
+    this.filters.update(filters => ({ ...filters, combustivel: value }));
   }
   
   searchVehicles() {

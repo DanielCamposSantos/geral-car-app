@@ -2,6 +2,8 @@
   <app-landing-page-content
     [veiculos]="veiculos()"
     [filtros]="filtros()"
+    [veiculosDestaque]="destaques()"
+    [loadingDestaques]="loadingDestaques()"
     [loading]="loading()"
     [error]="error()"
     (search)="onFilter($event)"
