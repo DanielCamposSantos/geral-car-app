@@ -8,7 +8,7 @@ interface FiltrosAplicados {
   marca?: string;
   modelo?: string;
   ano?: number;
-  combustivel?: string;
+  combustivel?: TipoCombustivel;
 }
 
 @Component({
@@ -69,20 +69,21 @@ export class CatalogFilters {
 
     this.filtersChange.emit(filters);
   }
-  onMarcaChange(marca: string | null): void {
-    this.currentMarca.set(marca);
+  onMarcaChange(marca: unknown): void {
+    this.currentMarca.set(typeof marca === 'string' ? marca : null);
   }
 
-  onModeloChange(modelo: string | null): void {
-    this.currentModelo.set(modelo);
+  onModeloChange(modelo: unknown): void {
+    this.currentModelo.set(typeof modelo === 'string' ? modelo : null);
   }
 
-  onAnoChange(ano: number | null): void {
-    this.currentAno.set(ano);
+  onAnoChange(ano: unknown): void {
+    this.currentAno.set(typeof ano === 'number' ? ano : null);
   }
 
-  onCombustivelChange(combustivel: TipoCombustivel | null): void {
-    this.currentCombustivel.set(combustivel);
+  onCombustivelChange(combustivel: unknown): void {
+    const value = typeof combustivel === 'string' ? (combustivel as TipoCombustivel) : null;
+    this.currentCombustivel.set(value);
   }
 
   limparFiltros(): void {
