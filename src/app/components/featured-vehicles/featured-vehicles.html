@@ -24,7 +24,8 @@
         @for (item of veiculosLimitados(); track item.id) {
           <app-vehicle-card 
             [veiculo]="item"
-            [whatsappUrl]="generateWhatsappLink(item.marca, item.modelo)">
+            [whatsappUrl]="generateWhatsappLink(item.marca, item.modelo)"
+            (vehicleClick)="onVehicleClick($event)">
           </app-vehicle-card>
         }
       </div>

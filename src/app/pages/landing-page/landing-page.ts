@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimaryPageLayout } from '../../components/primary-page-layout/primary-page-layout';
 import { LandingPageContent } from "../../components/landing-page-content/landing-page-content";
 import { VeiculoService } from '../../services/veiculo';
 import { VeiculoFilter } from '../../models/veiculo-filter';
-import { WhatsappService } from '../../services/whatsapp';
 
 @Component({
   selector: 'app-landing-page',
@@ -12,24 +12,28 @@ import { WhatsappService } from '../../services/whatsapp';
   styleUrl: './landing-page.scss',
 })
 export class LandingPage {
+  private veiculoService = inject(VeiculoService);
+  private router = inject(Router);
 
-  private veiculoService = inject(VeiculoService)
+  veiculos = this.veiculoService.page;
+  filtros = this.veiculoService.filtros;
+  loading = this.veiculoService.loading;
+  error = this.veiculoService.error;
 
-  veiculos = this.veiculoService.page
-  filtros = this.veiculoService.filtros
-  loading = this.veiculoService.loading
-  error = this.veiculoService.error
-
-  ngOnInit() {
-    this.veiculoService.getAll()
-    this.veiculoService.loadFiltros()
+  constructor() {
+    this.veiculoService.getAll();
+    this.veiculoService.loadFiltros();
   }
 
-  retry() {
-    this.veiculoService.getAll()
+  retry(): void {
+    this.veiculoService.getAll();
   }
 
-  onFilter(filters: VeiculoFilter) {
-    this.veiculoService.getAll(filters)
+  onFilter(filters: VeiculoFilter): void {
+    this.veiculoService.getAll(filters);
+  }
+
+  onVehicleClick(id: number): void {
+    this.router.navigate(['/detalhes', id]);
   }
 }

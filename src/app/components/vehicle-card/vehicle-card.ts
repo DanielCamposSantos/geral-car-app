@@ -22,7 +22,7 @@ export class VehicleCard {
       : '';
   });
 
-  onCardClick(): void {
+  onVehicleClick(): void {
     this.vehicleClick.emit(this.veiculo().id);
   }
 }

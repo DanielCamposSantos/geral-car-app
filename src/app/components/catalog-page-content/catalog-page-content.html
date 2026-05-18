@@ -21,7 +21,8 @@
         @for (veiculo of veiculos().content; track veiculo.id) {
           <app-vehicle-card
             [veiculo]="veiculo"
-            [whatsappUrl]="generateWhatsappLink(veiculo.marca, veiculo.modelo)">
+            [whatsappUrl]="generateWhatsappLink(veiculo.marca, veiculo.modelo)"
+            (vehicleClick) = "onVehicleClick($event)">
           </app-vehicle-card>
         }
       </div>

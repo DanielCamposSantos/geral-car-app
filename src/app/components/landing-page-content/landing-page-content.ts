@@ -1,4 +1,4 @@
-import { Component, input, output, OnInit, inject, signal } from '@angular/core';
+import { Component, input, output, inject, signal } from '@angular/core';
 import { Hero } from '../hero/hero';
 import { FeaturedVehicles } from '../featured-vehicles/featured-vehicles';
 import { Filtros } from '../../models/filtros';
@@ -13,8 +13,8 @@ import { VeiculoService } from '../../services/veiculo';
   templateUrl: './landing-page-content.html',
   styleUrl: './landing-page-content.scss',
 })
-export class LandingPageContent implements OnInit {
-  private veiculoService = inject(VeiculoService)
+export class LandingPageContent {
+  private veiculoService = inject(VeiculoService);
 
   veiculos = input.required<Page<VeiculoGetResponse>>();
   filtros = input.required<Filtros>();
@@ -22,25 +22,29 @@ export class LandingPageContent implements OnInit {
   error = input<string | null>(null);
   search = output<VeiculoFilter>();
   retry = output<void>();
+  vehicleClick = output<number>(); // ← novo output
 
   veiculosDestaque = signal<VeiculoGetResponse[]>([]);
   loadingDestaques = signal(true);
 
-  ngOnInit() {
+  constructor() {
     this.carregarDestaques();
   }
 
-  carregarDestaques() {
+  private carregarDestaques(): void {
     this.loadingDestaques.set(true);
     this.veiculoService.getDestaques().subscribe({
       next: (dados) => {
         this.veiculosDestaque.set(dados);
         this.loadingDestaques.set(false);
       },
-      error: (err) => {
-        console.error('Erro ao carregar destaques:', err);
+      error: () => {
         this.loadingDestaques.set(false);
       }
     });
+  }
+
+  onVehicleClick(id: number): void {
+    this.vehicleClick.emit(id);
   }
 }

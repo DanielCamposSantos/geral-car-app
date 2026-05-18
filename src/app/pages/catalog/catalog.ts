@@ -3,7 +3,7 @@ import { PrimaryPageLayout } from "../../components/primary-page-layout/primary-
 import { CatalogFilters } from '../../components/catalog-filters/catalog-filters';
 import { CatalogPageContent } from '../../components/catalog-page-content/catalog-page-content';
 import { VeiculoService } from '../../services/veiculo';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
 
 @Component({
@@ -15,6 +15,7 @@ import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
 export class Catalog implements OnInit {
   private veiculoService = inject(VeiculoService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   veiculos = this.veiculoService.page;
   filtros = this.veiculoService.filtros;
@@ -49,5 +50,9 @@ export class Catalog implements OnInit {
   retry() {
     this.veiculoService.getAll(this.currentFilters);
     this.veiculoService.loadFiltros();
+  }
+
+  onVehicleClick(id: number): void {
+    this.router.navigate(['/detalhes', id]);
   }
 }

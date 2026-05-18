@@ -11,6 +11,7 @@ import { VeiculoPostRequest } from '../../models/veiculo-post-request';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { VeiculoPutRequest } from '../../models/veiculo-put-request';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-veiculos',
@@ -22,6 +23,7 @@ export class AdminVeiculos {
   private veiculoService = inject(VeiculoService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
+  private router = inject(Router)
 
   showModal = signal(false);
   showEditModal = signal(false);
@@ -172,5 +174,9 @@ export class AdminVeiculos {
   private recarregarAposOperacao(): void {
     this.veiculoService.getAll();
     this.carregarTotalDestaques();
+  }
+
+   onVehicleClick(id: number): void {
+    this.router.navigate(['/detalhes', id]);
   }
 }
