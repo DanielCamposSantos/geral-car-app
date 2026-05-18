@@ -1,8 +1,6 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { environment } from '../../../environments/environment.development';
-import { VeiculoService } from '../../services/veiculo';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-table-cell',
@@ -11,23 +9,18 @@ import { Router } from '@angular/router';
   styleUrl: './vehicle-table-cell.scss',
 })
 export class VehicleTableCell {
-  private router = inject(Router);
-
-  private veiculoService = inject(VeiculoService);
-
-  veiculo = input.required<VeiculoGetResponse>()
+  veiculo = input.required<VeiculoGetResponse>();
+  
+  vehicleClick = output<number>();
 
   realImagePath = computed(() => {
-    return `${environment.API_URL}/${this.veiculo().imagens[0].imagePath
-      }`;
+    const imagem = this.veiculo().imagens?.[0];
+    return imagem 
+      ? `${environment.API_URL}/${imagem.imagePath}` 
+      : '';
   });
 
-  openDetails() {
-    this.veiculoService.selectVehicle(this.veiculo());
-
-    this.router.navigate([
-      '/detalhes',
-      this.veiculo().id
-    ]);
+  onCardClick(): void {
+    this.vehicleClick.emit(this.veiculo().id);
   }
 }

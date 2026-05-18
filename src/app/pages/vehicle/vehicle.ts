@@ -21,23 +21,21 @@ export class Vehicle {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  ngOnInit() {
-    const cached = this.veiculoService.findCachedVehicle(this.idNumerico());
+  constructor() {
+    this.carregarVeiculo();
+  }
 
-    if (cached) {
-      this.veiculo.set(cached);
-      this.loading.set(false);
-      return;
-    }
+  private carregarVeiculo(): void {
+    this.loading.set(true);
+    this.error.set(null);
 
-    this.veiculoService.resolveVehicleById(this.idNumerico()).subscribe({
-      next: data => {
+    this.veiculoService.getById(this.idNumerico()).subscribe({
+      next: (data) => {
         this.veiculo.set(data);
         this.loading.set(false);
       },
-      error: err => {
-        console.error(err);
-        this.error.set('Erro ao carregar o veículo');
+      error: () => {
+        this.error.set('Erro ao carregar os dados do veículo');
         this.loading.set(false);
       }
     });
