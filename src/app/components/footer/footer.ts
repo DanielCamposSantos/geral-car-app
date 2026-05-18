@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { RouterLink } from "@angular/router";
 
 @Component({
@@ -7,4 +7,6 @@ import { RouterLink } from "@angular/router";
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class Footer {}
+export class Footer {
+  currentYear = new Date().getFullYear();
+}

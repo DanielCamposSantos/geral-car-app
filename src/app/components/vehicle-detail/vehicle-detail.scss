@@ -166,11 +166,11 @@
         transition: all 0.2s;
 
         &-primary {
-          background: $primary;
+          background: $green-wa;
           color: white;
 
           &:hover {
-            background: darken($primary, 5%);
+            background: $green-wa-dark;
           }
         }
 
