@@ -1,8 +1,7 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { environment } from '../../../environments/environment.development';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-card',
@@ -11,19 +10,19 @@ import { Router } from '@angular/router';
   styleUrl: './vehicle-card.scss',
 })
 export class VehicleCard {
-  private router = inject(Router);
-
-  veiculo =  input.required<VeiculoGetResponse>();
-
+  veiculo = input.required<VeiculoGetResponse>();
   whatsappUrl = input.required<string>();
+  
+  vehicleClick = output<number>();
 
   realImagePath = computed(() => {
-    return `${environment.API_URL}/${
-      this.veiculo().imagens[0].imagePath
-    }`;
+    const imagem = this.veiculo().imagens?.[0];
+    return imagem 
+      ? `${environment.API_URL}/${imagem.imagePath}` 
+      : '';
   });
 
-  openDetails() {
-    this.router.navigate(['/detalhes', this.veiculo().id]);
+  onCardClick(): void {
+    this.vehicleClick.emit(this.veiculo().id);
   }
 }

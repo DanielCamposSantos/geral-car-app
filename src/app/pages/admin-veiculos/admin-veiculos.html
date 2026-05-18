@@ -44,7 +44,7 @@
               @for (veiculo of veiculos().content; track veiculo.id) {
               <tr>
                 <td>
-                  <app-vehicle-table-cell [veiculo]="veiculo"  />
+                  <app-vehicle-table-cell [veiculo]="veiculo" />
                 </td>
                 <td>{{ veiculo.marca }}</td>
                 <td>{{ veiculo.ano }}</td>
@@ -53,7 +53,7 @@
                   <input
                     type="checkbox"
                     [checked]="veiculo.destaque"
-                    (change)="toggleDestaque(veiculo, $event)">
+                    (change)="toggleDestaque(veiculo, $event)" />
                 </td>
                 <td>
                   <button class="btn-icon" title="Editar"

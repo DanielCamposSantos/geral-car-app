@@ -21,15 +21,21 @@ export class Vehicle {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  ngOnInit() {
+  constructor() {
+    this.carregarVeiculo();
+  }
+
+  private carregarVeiculo(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
     this.veiculoService.getById(this.idNumerico()).subscribe({
-      next: data => {
+      next: (data) => {
         this.veiculo.set(data);
         this.loading.set(false);
       },
-      error: err => {
-        console.error(err);
-        this.error.set('Erro ao carregar o veículo');
+      error: () => {
+        this.error.set('Erro ao carregar os dados do veículo');
         this.loading.set(false);
       }
     });

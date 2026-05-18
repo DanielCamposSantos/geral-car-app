@@ -7,19 +7,18 @@
   </div>
 
   <div class="card-body">
-
     <div class="card-title">
       {{ veiculo().marca }} {{ veiculo().modelo }}
     </div>
 
     <div class="card-specs">
       <span class="chip">{{ veiculo().ano }}</span>
-      <span class="chip">{{ veiculo().quilometragem | number}} km</span>
-      <span class="chip">{{ veiculo().combustivel}}</span>
+      <span class="chip">{{ veiculo().quilometragem | number }} km</span>
+      <span class="chip">{{ veiculo().combustivel }}</span>
     </div>
 
     <div class="card-footer">
-      <button class="btn btn-outline" (click)="openDetails()">Ver detalhes</button>
+      <button class="btn btn-outline" (click)="onCardClick()">Ver detalhes</button>
       <a class="btn btn-wa btn-icon" type="button" [href]="whatsappUrl()" target="_blank">
         <img src="images/whatsapp.svg">
       </a>
