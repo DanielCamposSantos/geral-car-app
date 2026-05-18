@@ -63,13 +63,35 @@ export class VeiculoService {
     params = params.set('page', String(page));
     params = params.set('size', String(size));
 
-    this.http.get<Page<VeiculoGetResponse>>(this.baseUrl, { params }).subscribe({
+    this.http.get<Page<VeiculoGetResponse>>(`${this.baseUrl}/paginated`, { params }).subscribe({
       next: (pageData) => {
         this.page.set(pageData);
         this.loading.set(false);
       },
       error: () => {
         this.error.set('Não foi possível carregar os veículos');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  getAllFullList(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.http.get<VeiculoGetResponse[]>(this.baseUrl).subscribe({
+      next: (veiculos) => {
+        this.page.set({
+          content: veiculos,
+          totalElements: veiculos.length,
+          totalPages: 1,
+          number: 0,
+          size: veiculos.length,
+        });
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Não foi possível carregar todos os veículos');
         this.loading.set(false);
       }
     });
@@ -106,8 +128,11 @@ export class VeiculoService {
   }
 
   update(data: VeiculoPutRequest): Observable<void> {
-    return this.http.put<void>(this.baseUrl, data);
-  }
+  console.log('Enviando PUT:', JSON.stringify(data)); // Debug
+  console.log('URL:', this.baseUrl); // Debug
+  
+  return this.http.put<void>(this.baseUrl, data);
+}
 
   toggleDestaque(id: number, destaque: boolean): Observable<void> {
     return this.http.patch<void>(`${this.baseUrl}/destaques/${id}?destaque=${destaque}`, {});

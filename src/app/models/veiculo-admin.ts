@@ -3,7 +3,7 @@ export interface VeiculoAdmin {
   veiculo: string;
   marca: string;
   ano: number;
-  km: number;
+  quilometragem: number;
   destaque: boolean;
   preco: number;
   combustivel: string;
