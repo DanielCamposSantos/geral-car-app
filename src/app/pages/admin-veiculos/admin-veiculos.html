@@ -44,7 +44,7 @@
               @for (veiculo of veiculos().content; track veiculo.id) {
               <tr>
                 <td>
-                  <app-vehicle-table-cell [veiculo]="veiculo" />
+                  <app-vehicle-table-cell [veiculo]="veiculo" (vehicleClick)="onVehicleClick($event)"/>
                 </td>
                 <td>{{ veiculo.marca }}</td>
                 <td>{{ veiculo.ano }}</td>

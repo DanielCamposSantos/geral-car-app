@@ -1,10 +1,11 @@
 <app-hero
   [filtros]="filtros()"
   [totalVeiculos]="veiculos().totalElements"
-  (search)="search.emit($event)"
-></app-hero>
+  (search)="search.emit($event)">
+</app-hero>
 
 <app-featured-vehicles
   [veiculos]="veiculosDestaque()"
   [loading]="loadingDestaques()"
-></app-featured-vehicles>
+  (vehicleClick)="onVehicleClick($event)">
+</app-featured-vehicles>

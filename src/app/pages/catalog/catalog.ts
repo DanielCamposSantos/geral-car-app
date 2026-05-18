@@ -3,11 +3,7 @@ import { PrimaryPageLayout } from "../../components/primary-page-layout/primary-
 import { CatalogFilters } from '../../components/catalog-filters/catalog-filters';
 import { CatalogPageContent } from '../../components/catalog-page-content/catalog-page-content';
 import { VeiculoService } from '../../services/veiculo';
-import { VeiculoFilter } from '../../models/veiculo-filter';
-import { VeiculoGetResponse } from '../../models/veiculo-get-response';
-import { Page } from '../../models/Page';
-import { Filtros } from '../../models/filtros';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
 
 @Component({
@@ -19,22 +15,12 @@ import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
 export class Catalog implements OnInit {
   private veiculoService = inject(VeiculoService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  veiculos = signal<Page<VeiculoGetResponse>>({
-    content: [],
-    totalElements: 0,
-    totalPages: 0,
-    number: 0,
-    size: 6,
-  });
-  filtros = signal<Filtros>({
-    marcas: [],
-    modelos: [],
-    anos: [],
-    combustiveis: [],
-  });
-  loading = signal(false);
-  error = signal<string | null>(null);
+  veiculos = this.veiculoService.page;
+  filtros = this.veiculoService.filtros;
+  loading = this.veiculoService.loading;
+  error = this.veiculoService.error;
 
   currentFilters: Partial<VeiculoFilter> = {};
 
@@ -62,33 +48,11 @@ export class Catalog implements OnInit {
   }
 
   retry() {
-    this.loadVehicles(this.currentFilters as VeiculoFilter);
-    this.loadFilters();
+    this.veiculoService.getAll(this.currentFilters);
+    this.veiculoService.loadFiltros();
   }
 
-  private loadVehicles(filters?: VeiculoFilter, page: number = 0, size: number = 6) {
-    this.loading.set(true);
-    this.error.set(null);
-    this.veiculoService.getAll(filters, page, size).subscribe({
-      next: pageData => {
-        this.veiculos.set(pageData);
-        this.loading.set(false);
-      },
-      error: err => {
-        console.error(err);
-        this.error.set('Não foi possível carregar os veículos');
-        this.loading.set(false);
-      }
-    });
-  }
-
-  private loadFilters() {
-    this.veiculoService.loadFiltros().subscribe({
-      next: filtros => this.filtros.set(filtros),
-      error: err => {
-        console.error(err);
-        this.error.set('Não foi possível carregar os filtros');
-      }
-    });
+  onVehicleClick(id: number): void {
+    this.router.navigate(['/detalhes', id]);
   }
 }

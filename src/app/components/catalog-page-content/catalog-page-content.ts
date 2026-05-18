@@ -21,6 +21,7 @@ export class CatalogPageContent {
   error = input<string | null>(null);
   retry = output();
   pageChange = output<PageEvent>();
+  vehicleClick = output<number>();
 
   onPageChange(event: PageEvent) {
     this.pageChange.emit(event);
@@ -29,4 +30,10 @@ export class CatalogPageContent {
   generateWhatsappLink(marca: string, modelo: string) {
     return this.whatsappService.generateLink(marca, modelo);
   }
+
+  onVehicleClick(id: number): void {
+    this.vehicleClick.emit(id);
+  }
+  
+  
 }
