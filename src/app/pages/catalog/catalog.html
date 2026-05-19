@@ -3,7 +3,7 @@
     <div class="filters-wrapper">
       <app-catalog-filters
         [filtros]="filtros()"
-        (filtersChange)="onFiltersChange($event)"/>
+        (filtersChange)="onFiltersChange($event)" />
     </div>
     <div class="content-wrapper">
       <app-catalog-page-content
@@ -13,7 +13,7 @@
         [error]="error()"
         (retry)="retry()"
         (pageChange)="onPageChange($event)"
-        (vehicleClick) = "onVehicleClick($event)"/>
+        (vehicleClick)="onVehicleClick($event)" />
     </div>
   </div>
 </app-primary-page-layout>

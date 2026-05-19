@@ -22,16 +22,17 @@
           <app-vehicle-card
             [veiculo]="veiculo"
             [whatsappUrl]="generateWhatsappLink(veiculo.marca, veiculo.modelo)"
-            (vehicleClick) = "onVehicleClick($event)">
+            (vehicleClick)="onVehicleClick($event)">
           </app-vehicle-card>
         }
       </div>
       <div class="paginator-wrapper">
         <mat-paginator
           [length]="veiculos().totalElements"
-          [pageSize]="6"
-          [pageSizeOptions]="[6]"
+          [pageSize]="veiculos().size"
+          [pageSizeOptions]="[]"
           [pageIndex]="veiculos().number"
+          [hidePageSize]="true"
           (page)="onPageChange($event)"
           aria-label="Selecionar página"
           showFirstLastButtons>

@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimaryPageLayout } from "../../components/primary-page-layout/primary-page-layout";
 import { CatalogFilters } from '../../components/catalog-filters/catalog-filters';
 import { CatalogPageContent } from '../../components/catalog-page-content/catalog-page-content';
 import { VeiculoService } from '../../services/veiculo';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
+import { VeiculoFilter } from '../../models/veiculo-filter';
 
 @Component({
   selector: 'app-catalog',
@@ -12,9 +12,8 @@ import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
-export class Catalog implements OnInit {
+export class Catalog {
   private veiculoService = inject(VeiculoService);
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   veiculos = this.veiculoService.page;
@@ -22,34 +21,24 @@ export class Catalog implements OnInit {
   loading = this.veiculoService.loading;
   error = this.veiculoService.error;
 
-  currentFilters: any = {};
+  private currentFilters: VeiculoFilter = {};
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const filters: any = {};
-      if (params['marca']) filters.marca = params['marca'];
-      if (params['modelo']) filters.modelo = params['modelo'];
-      if (params['ano']) filters.ano = Number(params['ano']);
-      if (params['combustivel']) filters.combustivel = params['combustivel'] as TipoCombustivel;
-      
-      this.currentFilters = filters;
-      this.veiculoService.getAll(filters, 0, 6);
-    });
+  constructor() {
+    this.veiculoService.getAll();
     this.veiculoService.loadFiltros();
   }
 
-  onFiltersChange(filters: any) {
+  onFiltersChange(filters: VeiculoFilter): void {
     this.currentFilters = filters;
     this.veiculoService.getAll(filters, 0, 6);
   }
 
-  onPageChange(event: any) {
+  onPageChange(event: { pageIndex: number }): void {
     this.veiculoService.getAll(this.currentFilters, event.pageIndex, 6);
   }
 
-  retry() {
+  retry(): void {
     this.veiculoService.getAll(this.currentFilters);
-    this.veiculoService.loadFiltros();
   }
 
   onVehicleClick(id: number): void {

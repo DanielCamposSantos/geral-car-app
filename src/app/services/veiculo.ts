@@ -31,8 +31,7 @@ export class VeiculoService {
   private createParams(filters?: VeiculoFilter): HttpParams {
     let params = new HttpParams();
     if (filters) {
-      if (filters.marca) params = params.set('marca', filters.marca);
-      if (filters.modelo) params = params.set('modelo', filters.modelo);
+      if (filters.busca) params = params.set('busca', filters.busca);
       if (filters.ano !== undefined && filters.ano !== null) params = params.set('ano', String(filters.ano));
       if (filters.combustivel) params = params.set('combustivel', filters.combustivel);
     }
@@ -40,18 +39,9 @@ export class VeiculoService {
   }
 
   loadFiltros(): void {
-    this.loading.set(true);
-    this.error.set(null);
-
     this.http.get<Filtros>(`${this.baseUrl}/filtros`).subscribe({
-      next: (filtros) => {
-        this.filtros.set(filtros);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('Não foi possível carregar os filtros');
-        this.loading.set(false);
-      }
+      next: (filtros) => this.filtros.set(filtros),
+      error: () => this.error.set('Não foi possível carregar os filtros')
     });
   }
 
@@ -128,11 +118,8 @@ export class VeiculoService {
   }
 
   update(data: VeiculoPutRequest): Observable<void> {
-  console.log('Enviando PUT:', JSON.stringify(data)); // Debug
-  console.log('URL:', this.baseUrl); // Debug
-  
-  return this.http.put<void>(this.baseUrl, data);
-}
+    return this.http.put<void>(this.baseUrl, data);
+  }
 
   toggleDestaque(id: number, destaque: boolean): Observable<void> {
     return this.http.patch<void>(`${this.baseUrl}/destaques/${id}?destaque=${destaque}`, {});
