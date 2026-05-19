@@ -1,6 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SideBarAdmin } from '../../components/side-bar-admin/side-bar-admin';
 import { ModalContent } from '../../components/modal-content/modal-content';
 import { ModalEditContent } from '../../components/modal-edit-content/modal-edit-content';
@@ -10,12 +12,10 @@ import { VeiculoService } from '../../services/veiculo';
 import { VeiculoPostRequest } from '../../models/veiculo-post-request';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { VeiculoPutRequest } from '../../models/veiculo-put-request';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-veiculos',
-  imports: [CommonModule,SideBarAdmin, ModalContent, ModalEditContent, VehicleTableCell],
+  imports: [CommonModule, SideBarAdmin, ModalContent, ModalEditContent, VehicleTableCell],
   templateUrl: './admin-veiculos.html',
   styleUrl: './admin-veiculos.scss',
 })
@@ -23,7 +23,7 @@ export class AdminVeiculos {
   private veiculoService = inject(VeiculoService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
-  private router = inject(Router)
+  private router = inject(Router);
 
   showModal = signal(false);
   showEditModal = signal(false);
@@ -42,7 +42,7 @@ export class AdminVeiculos {
   }
 
   private carregarDadosIniciais(): void {
-    this.veiculoService.getAll();
+    this.veiculoService.getAllFullList();
     this.veiculoService.loadFiltros();
     this.carregarTotalDestaques();
   }
@@ -172,11 +172,11 @@ export class AdminVeiculos {
   }
 
   private recarregarAposOperacao(): void {
-    this.veiculoService.getAll();
+    this.veiculoService.getAllFullList();
     this.carregarTotalDestaques();
   }
 
-   onVehicleClick(id: number): void {
+  onVehicleClick(id: number): void {
     this.router.navigate(['/detalhes', id]);
   }
 }

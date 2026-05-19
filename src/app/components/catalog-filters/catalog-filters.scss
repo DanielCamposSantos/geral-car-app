@@ -28,6 +28,34 @@
       }
     }
     
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid $surface-high;
+      border-radius: $radius-md;
+      font-size: 14px;
+      font-family: $font-main;
+      color: $on-surface;
+      background: $surface-low;
+      transition: all $transition;
+      outline: none;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: $slate-500;
+      }
+
+      &:focus {
+        border-color: $primary;
+        background: $white;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+      }
+
+      &:hover {
+        border-color: $slate-400;
+      }
+    }
+
     .filter-actions {
       display: flex;
       gap: 12px;
@@ -77,6 +105,38 @@
           color: $slate-700;
         }
       }
+    }
+  }
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  margin-top: 8px;
+  border-radius: $radius-md !important;
+  border: 1px solid $surface-high;
+  box-shadow: $shadow-lg !important;
+  background: $white;
+  overflow: hidden;
+
+  .mat-mdc-option {
+    font-family: $font-main;
+    font-size: 14px;
+    color: $on-surface;
+    min-height: 44px;
+    padding: 0 16px;
+    transition: all $transition;
+
+    &:hover {
+      background: $surface-low;
+    }
+
+    &.mat-mdc-option-active {
+      background: $primary-light;
+      color: $primary;
+      font-weight: 600;
+    }
+
+    .mat-mdc-option-pseudo-checkbox {
+      display: none;
     }
   }
 }

@@ -1,0 +1,73 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">🚗</div>
+      <h1>GeralCar</h1>
+      <p>Painel Administrativo</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="admin@geralcar.com.br"
+          autocomplete="email"
+          [class.input-error]="hasError('email', 'email') || hasError('email', 'required')" />
+        @if (hasError('email', 'required')) {
+          <span class="field-error">E-mail é obrigatório.</span>
+        } @else if (hasError('email', 'email')) {
+          <span class="field-error">E-mail inválido.</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          [class.input-error]="hasError('password', 'required') || hasError('password', 'minlength')" />
+        @if (hasError('password', 'required')) {
+          <span class="field-error">Senha é obrigatória.</span>
+        } @else if (hasError('password', 'minlength')) {
+          <span class="field-error">Mínimo de 4 caracteres.</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="form-error">
+          <span class="error-icon">⚠️</span>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner"></span>
+          Entrando...
+        } @else {
+          <span class="app-icon">login</span>
+          Entrar
+        }
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-ghost"
+        [routerLink]="['/home']">
+        <span class="app-icon">arrow_back</span>
+        Voltar ao site
+      </button>
+    </form>
+
+    <p class="login-note">Demo: admin&#64;geralcar.com.br / admin123</p>
+  </div>
+</div>

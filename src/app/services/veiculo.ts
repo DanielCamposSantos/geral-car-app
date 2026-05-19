@@ -31,8 +31,7 @@ export class VeiculoService {
   private createParams(filters?: VeiculoFilter): HttpParams {
     let params = new HttpParams();
     if (filters) {
-      if (filters.marca) params = params.set('marca', filters.marca);
-      if (filters.modelo) params = params.set('modelo', filters.modelo);
+      if (filters.busca) params = params.set('busca', filters.busca);
       if (filters.ano !== undefined && filters.ano !== null) params = params.set('ano', String(filters.ano));
       if (filters.combustivel) params = params.set('combustivel', filters.combustivel);
     }
@@ -40,18 +39,9 @@ export class VeiculoService {
   }
 
   loadFiltros(): void {
-    this.loading.set(true);
-    this.error.set(null);
-
     this.http.get<Filtros>(`${this.baseUrl}/filtros`).subscribe({
-      next: (filtros) => {
-        this.filtros.set(filtros);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('Não foi possível carregar os filtros');
-        this.loading.set(false);
-      }
+      next: (filtros) => this.filtros.set(filtros),
+      error: () => this.error.set('Não foi possível carregar os filtros')
     });
   }
 
@@ -63,13 +53,35 @@ export class VeiculoService {
     params = params.set('page', String(page));
     params = params.set('size', String(size));
 
-    this.http.get<Page<VeiculoGetResponse>>(this.baseUrl, { params }).subscribe({
+    this.http.get<Page<VeiculoGetResponse>>(`${this.baseUrl}/paginated`, { params }).subscribe({
       next: (pageData) => {
         this.page.set(pageData);
         this.loading.set(false);
       },
       error: () => {
         this.error.set('Não foi possível carregar os veículos');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  getAllFullList(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.http.get<VeiculoGetResponse[]>(this.baseUrl).subscribe({
+      next: (veiculos) => {
+        this.page.set({
+          content: veiculos,
+          totalElements: veiculos.length,
+          totalPages: 1,
+          number: 0,
+          size: veiculos.length,
+        });
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Não foi possível carregar todos os veículos');
         this.loading.set(false);
       }
     });

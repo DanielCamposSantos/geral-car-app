@@ -36,6 +36,7 @@
                 <th>Marca</th>
                 <th>Ano</th>
                 <th>KM</th>
+                <th>Combustivel</th>
                 <th>Destaque</th>
                 <th>Ações</th>
               </tr>
@@ -49,6 +50,7 @@
                 <td>{{ veiculo.marca }}</td>
                 <td>{{ veiculo.ano }}</td>
                 <td>{{ veiculo.quilometragem | number }} km</td>
+                <td>{{ veiculo.combustivel }}</td>
                 <td>
                   <input
                     type="checkbox"
@@ -96,7 +98,7 @@
         <app-modal-edit-content
           [veiculo]="selectedVehicle()!"
           (close)="closeEditModal()"
-          (submit)="updateVeiculo($event)">
+          (formSubmit)="updateVeiculo($event)">
         </app-modal-edit-content>
       </div>
     </div>

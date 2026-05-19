@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CustomPaginatorIntl extends MatPaginatorIntl {
-  override itemsPerPageLabel = 'Itens por página:';
-  override nextPageLabel = 'Próxima página';
-  override previousPageLabel = 'Página anterior';
-  override firstPageLabel = 'Primeira página';
-  override lastPageLabel = 'Última página';
+  override itemsPerPageLabel = '';
+  override nextPageLabel = 'Próxima';
+  override previousPageLabel = 'Anterior';
+  override firstPageLabel = 'Primeira';
+  override lastPageLabel = 'Última';
 
   override getRangeLabel = (page: number, pageSize: number, length: number): string => {
     if (length === 0 || pageSize === 0) {
@@ -15,10 +15,8 @@ export class CustomPaginatorIntl extends MatPaginatorIntl {
     }
     
     const startIndex = page * pageSize;
-    const endIndex = startIndex < length
-      ? Math.min(startIndex + pageSize, length)
-      : startIndex + pageSize;
+    const endIndex = Math.min(startIndex + pageSize, length);
     
-    return `${startIndex + 1} – ${endIndex} de ${length}`;
+    return `${startIndex + 1} - ${endIndex} de ${length}`;
   };
 }

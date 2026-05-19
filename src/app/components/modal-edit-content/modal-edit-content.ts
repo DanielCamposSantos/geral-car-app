@@ -28,7 +28,7 @@ export class ModalEditContent implements OnInit {
   combustivelOptions = Object.values(TipoCombustivel)
 
   close = output<void>()
-  submit = output<{ data: VeiculoPutRequest; imagensParaAdicionar: File[]; imagensParaDeletar: number[] }>()
+  formSubmit = output<{ data: VeiculoPutRequest; imagensParaAdicionar: File[]; imagensParaDeletar: number[] }>()
 
   imagens = signal<ImagemItem[]>([])
 
@@ -96,7 +96,7 @@ export class ModalEditContent implements OnInit {
 
   onSubmit() {
     if (this.addForm.valid) {
-      const formValue = this.addForm.value
+      const formValue = this.addForm.value;
 
       const updateData: VeiculoPutRequest = {
         id: this.veiculo().id,
@@ -108,21 +108,23 @@ export class ModalEditContent implements OnInit {
         destaque: formValue.destaque!,
         combustivel: formValue.combustivel!,
         descricao: formValue.descricao || ''
-      }
+      };
 
       const imagensParaAdicionar = this.imagens()
         .filter(img => img.isNew && img.file)
-        .map(img => img.file!)
+        .map(img => img.file!);
 
       const imagensParaDeletar = this.imagens()
         .filter(img => img.id && img.isDeleted)
-        .map(img => img.id!)
+        .map(img => img.id!);
 
-      this.submit.emit({
+      const eventData = {
         data: updateData,
         imagensParaAdicionar,
         imagensParaDeletar
-      })
+      };
+
+      this.formSubmit.emit(eventData); 
     }
   }
 
