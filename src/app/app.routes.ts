@@ -3,12 +3,14 @@
     import { Vehicle } from './pages/vehicle/vehicle';
     import { Catalog } from './pages/catalog/catalog';
     import { AdminVeiculos } from './pages/admin-veiculos/admin-veiculos';
+import { Login } from './pages/login/login';
 
     export const routes: Routes = [
         { path: "", redirectTo: "home", pathMatch: "full" },
         { path: "home", component: LandingPage },
         { path: "catalog", component: Catalog },
         { path: "detalhes/:id", component: Vehicle },
+        { path: "login", component: Login },
         { path: "admin", redirectTo: "admin/veiculos", pathMatch: "full" },
         { path: "admin/veiculos", component: AdminVeiculos  },
     ];
