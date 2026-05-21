@@ -1,19 +1,15 @@
-@use 'variables' as *;
+@use "variables" as *;
 
 .header {
   display: flex;
-  
+
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, .95);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid $surface-high;
   box-shadow: $shadow-sm;
-
-  @media (min-width: 768px) {
-    flex-direction: column
-  }
 
   .header-inner {
     display: flex;
@@ -27,7 +23,7 @@
       font-weight: 900;
       font-style: italic;
       color: $primary;
-      letter-spacing: -.03em;
+      letter-spacing: -0.03em;
     }
 
     .logo span {
@@ -58,13 +54,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      
+      @media (max-width: 768px) {
+        display: none;
+      }
 
-      a{
-        &:hover{
+      a {
+        &:hover {
           background-color: $surface-high;
         }
       }
-
     }
   }
 }
