@@ -1,0 +1,13 @@
+services:
+  geral-car-api:
+    container_name: geral-car-api
+    image: danielcampossantos/geral-car-api:0.0.1-SNAPSHOT
+    environment:
+      SPRING_DATASOURCE_USERNAME: ${ENV_POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${ENV_POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    volumes:
+      - geralcar_imagens:/app/imagens
+volumes:
+  geralcar_imagens:
