@@ -3,12 +3,12 @@ import { Injectable, inject, signal } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment.development";
 import { Filtros } from "../models/filtros";
-import { Page } from "../models/page";
 import { VeiculoFilter } from "../models/veiculo-filter";
 import { VeiculoGetResponse } from "../models/veiculo-get-response";
 import { VeiculoPostRequest } from "../models/veiculo-post-request";
 import { VeiculoPostResponse } from "../models/veiculo-post-response";
 import { VeiculoPutRequest } from "../models/veiculo-put-request";
+import { Page } from "../models/page";
 
 @Injectable({ providedIn: 'root' })
 export class VeiculoService {
