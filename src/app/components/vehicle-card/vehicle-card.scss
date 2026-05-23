@@ -92,4 +92,23 @@
     justify-content: center;
     padding: 10px;
   }
+
+  @media (max-width: 760px) {
+    .card-img {
+      height: 180px;
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .card-title {
+      font-size: 15px;
+    }
+
+    .card-footer {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
 }

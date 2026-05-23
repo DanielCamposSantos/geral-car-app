@@ -183,6 +183,36 @@
     font-family: monospace;
     letter-spacing: 0.3px;
   }
+
+  @media (max-width: 640px) {
+    .login-page {
+      padding: 16px;
+    }
+
+    .login-card {
+      padding: 28px 20px;
+      max-width: 100%;
+    }
+
+    .login-logo h1 {
+      font-size: 24px;
+    }
+
+    .form-group input {
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+
+    .btn {
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .login-note {
+      font-size: 11px;
+      padding: 8px;
+    }
+  }
 }
 
 @keyframes fadeInUp {

@@ -105,4 +105,47 @@
             }
         }
     }
+
+    @media (max-width: 900px) {
+        padding: 60px 0;
+
+        p {
+            font-size: 16px;
+            max-width: 100%;
+        }
+
+        .search-box {
+            max-width: 100%;
+            padding: 14px;
+            gap: 12px;
+        }
+
+        .hero-stats {
+            gap: 18px;
+            margin-top: 32px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        padding: 40px 0;
+
+        .hero-tag {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .search-box {
+            flex-direction: column;
+            padding: 12px;
+        }
+
+        .search-box-field {
+            padding: 12px 14px;
+        }
+
+        .hero-stats {
+            flex-direction: column;
+            gap: 18px;
+        }
+    }
 }

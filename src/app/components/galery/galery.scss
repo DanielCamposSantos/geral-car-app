@@ -84,4 +84,20 @@
       display: block;
     }
   }
+
+  @media (max-width: 760px) {
+    .gallery-main {
+      height: 260px;
+    }
+
+    .gallery-thumbs {
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .gallery-thumb {
+      width: 64px;
+      height: 48px;
+    }
+  }
 }

@@ -1,9 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SideBarAdmin } from '../../components/side-bar-admin/side-bar-admin';
+import { NotificationPopup } from '../../components/notification-popup/notification-popup';
 import { ModalContent } from '../../components/modal-content/modal-content';
 import { ModalEditContent } from '../../components/modal-edit-content/modal-edit-content';
 import { VehicleTableCell } from '../../components/vehicle-table-cell/vehicle-table-cell';
@@ -15,19 +15,21 @@ import { VeiculoPutRequest } from '../../models/veiculo-put-request';
 
 @Component({
   selector: 'app-admin-veiculos',
-  imports: [CommonModule, SideBarAdmin, ModalContent, ModalEditContent, VehicleTableCell],
+  imports: [CommonModule, SideBarAdmin, ModalContent, ModalEditContent, VehicleTableCell, NotificationPopup],
   templateUrl: './admin-veiculos.html',
   styleUrl: './admin-veiculos.scss',
 })
 export class AdminVeiculos {
   private veiculoService = inject(VeiculoService);
   private dialog = inject(MatDialog);
-  private snackBar = inject(MatSnackBar);
   private router = inject(Router);
 
   showModal = signal(false);
   showEditModal = signal(false);
   selectedVehicle = signal<VeiculoGetResponse | null>(null);
+  notificationVisible = signal(false);
+  notificationMessage = signal('');
+  notificationType = signal<'success' | 'error' | 'info'>('success');
 
   veiculos = this.veiculoService.page;
   filtros = this.veiculoService.filtros;
@@ -54,13 +56,30 @@ export class AdminVeiculos {
     });
   }
 
+  private notificationTimeout?: ReturnType<typeof setTimeout>;
+
   private showToast(message: string, type: 'success' | 'error' | 'info' = 'success'): void {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 3000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-      panelClass: `toast-${type}`
-    });
+    if (this.notificationTimeout) {
+      clearTimeout(this.notificationTimeout);
+    }
+
+    this.notificationMessage.set(message);
+    this.notificationType.set(type);
+    this.notificationVisible.set(true);
+
+    this.notificationTimeout = setTimeout(() => {
+      this.notificationVisible.set(false);
+      this.notificationTimeout = undefined;
+    }, 3000);
+  }
+
+  dismissNotification(): void {
+    if (this.notificationTimeout) {
+      clearTimeout(this.notificationTimeout);
+      this.notificationTimeout = undefined;
+    }
+
+    this.notificationVisible.set(false);
   }
 
   private openConfirmDialog(title: string, message: string) {

@@ -103,5 +103,12 @@
       </div>
     </div>
     }
+
+    <app-notification-popup
+      [message]="notificationMessage()"
+      [type]="notificationType()"
+      [visible]="notificationVisible()"
+      (close)="dismissNotification()">
+    </app-notification-popup>
   </div>
 </div>

@@ -1,0 +1,8 @@
+<div class="notification-popup" *ngIf="visible">
+  <div class="notification-card" [ngClass]="type">
+    <div class="notification-content">
+      <p class="notification-message">{{ message }}</p>
+      <button class="notification-close" type="button" aria-label="Fechar notificação" (click)="close.emit()">×</button>
+    </div>
+  </div>
+</div>
