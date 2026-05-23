@@ -3,7 +3,14 @@
   position: relative;
   width: 100%;
   min-width: 220px;
+  max-width: 100%;
   overflow: visible;
+}
+
+@media (max-width: 760px) {
+  .selector-input {
+    min-width: 0;
+  }
 }
 
 .selector-trigger {

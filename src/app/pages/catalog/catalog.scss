@@ -11,10 +11,47 @@
     position: relative;
     top: 24px;
     align-self: flex-start;
+    min-width: 0;
   }
 
   .content-wrapper {
     flex: 1;
     min-width: 0;
+  }
+}
+
+@media (max-width: 1080px) {
+  .catalog-container {
+    gap: 24px;
+    padding: 20px;
+
+    .filters-wrapper {
+      flex: 0 0 240px;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .catalog-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .filters-wrapper {
+    flex: 1 1 auto;
+    position: static;
+    top: 0;
+    width: 100%;
+  }
+
+  .content-wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .catalog-container {
+    gap: 18px;
+    padding: 16px;
   }
 }

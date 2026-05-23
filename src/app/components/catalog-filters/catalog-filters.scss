@@ -1,7 +1,11 @@
 @use 'variables' as *;
 
 .filters-sidebar {
+  width: 100%;
+
   .filters-container {
+    display: grid;
+    gap: 20px;
     background: $white;
     border-radius: $radius-xl;
     padding: 24px;
@@ -17,13 +21,15 @@
     }
     
     .filter-group {
-      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 0;
       
       label {
         display: block;
         font-size: 13px;
         font-weight: 600;
-        margin-bottom: 8px;
         color: $slate-700;
       }
     }
@@ -58,11 +64,13 @@
 
     .filter-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 12px;
       margin-top: 24px;
       
       .btn-search {
-        flex: 2;
+        flex: 2 1 180px;
+        min-width: 140px;
         background: $primary;
         color: $white;
         border: none;
@@ -88,7 +96,8 @@
       }
       
       .btn-clear-filters {
-        flex: 1;
+        flex: 1 1 120px;
+        min-width: 120px;
         background: transparent;
         border: 1px solid $surface-high;
         border-radius: $radius-md;
@@ -109,6 +118,37 @@
   }
 }
 
+@media (max-width: 860px) {
+  .filters-sidebar {
+    .filters-container {
+      padding: 20px;
+      gap: 18px;
+    }
+
+    .filter-actions {
+      justify-content: stretch;
+
+      .btn-search,
+      .btn-clear-filters {
+        flex: 1 1 100%;
+        min-width: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .filters-sidebar {
+    .filters-container {
+      padding: 16px;
+      gap: 16px;
+    }
+
+    .filter-group {
+      gap: 8px;
+    }
+  }
+}
 ::ng-deep .mat-mdc-autocomplete-panel {
   margin-top: 8px;
   border-radius: $radius-md !important;

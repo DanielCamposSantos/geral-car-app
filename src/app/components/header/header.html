@@ -1,35 +1,29 @@
 <header class="header">
   <div class="container header-inner">
 
-    <button class="logo" routerLink="/home">
+    <a class="logo" routerLink="/home">
       <img src="images/GERAL CAR.svg" alt="Geral Car">
-    </button>
+    </a>
 
-    <nav class="nav">
-
-      <a
-        class="nav-link"
-        routerLink="/home"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">
-        Início
-      </a>
-
-      <a
-        class="nav-link"
-        routerLink="/catalog"
-        routerLinkActive="active">
-        Catálogo
-      </a>
-
-      <a
-        class="nav-link"
-        routerLink="/testimonials"
-        routerLinkActive="active">
-        Depoimentos
-      </a>
-
+    <nav class="nav" [class.mobile-open]="isMenuOpen()">
+      @for (link of navLinks; track link.path) {
+        <a
+          class="nav-link"
+          [routerLink]="link.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          (click)="closeMenu()">
+          {{ link.label }}
+        </a>
+      }
     </nav>
+
+    <button 
+      class="mobile-menu-toggle" 
+      (click)="toggleMenu()"
+      [attr.aria-label]="isMenuOpen() ? 'Fechar menu' : 'Abrir menu'">
+      <span class="app-icon">{{ menuIcon() }}</span>
+    </button>
 
     <div class="header-actions">
       <a class="btn btn-ghost btn-sm" [routerLink]="['/login']">
