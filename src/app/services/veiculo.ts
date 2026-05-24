@@ -107,9 +107,8 @@ export class VeiculoService {
     formData.append('data', new Blob([JSON.stringify(requestData)], { type: 'application/json' }));
 
     data.imagens.forEach((imagem: File) => {
-      formData.append('images', imagem);
+      formData.append('imagens', imagem);
     });
-
     return this.http.post<VeiculoPostResponse>(this.baseUrl, formData);
   }
 
@@ -136,7 +135,7 @@ export class VeiculoService {
   addImagens(veiculoId: number, files: File[]): Observable<void> {
     const formData = new FormData();
     files.forEach(file => {
-      formData.append('images', file);
+      formData.append('imagens', file);
     });
     return this.http.post<void>(`${this.baseUrl}/${veiculoId}/imagens`, formData);
   }

@@ -36,8 +36,8 @@
 
     <div class="form-group">
       <label>KM *</label>
-      <input type="number" formControlName="km" min="0" step="1000" />
-      @if (addForm.get('km')?.invalid && addForm.get('km')?.touched) {
+      <input type="number" formControlName="quilometragem" min="0" step="1000" />
+      @if (addForm.get('quilometragem')?.invalid && addForm.get('quilometragem')?.touched) {
       <small class="error">KM não pode ser negativo</small>
       }
     </div>

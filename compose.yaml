@@ -5,6 +5,7 @@ services:
     environment:
       SPRING_DATASOURCE_USERNAME: ${ENV_POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${ENV_POSTGRES_PASSWORD}
+      SPRING_DATASOURCE_URL: ${ENV_POSTGRES_URL}
     ports:
       - "8080:8080"
     volumes:
