@@ -1,0 +1,21 @@
+<section class="testimonials" id="testimonials-section">
+  <div class="container">
+    <h2>O que nossos clientes dizem</h2>
+    <p class="sub">Experiências reais de quem já comprou conosco</p>
+    <div class="testimonials-grid">
+      @for (item of testimonials; track item.name) {
+        <div class="testimonial-card">
+          <div class="stars">{{ '★'.repeat(item.stars) }}{{ '☆'.repeat(5 - item.stars) }}</div>
+          <p class="testimonial-text">"{{ item.text }}"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">{{ item.name.charAt(0) }}</div>
+            <div>
+              <div class="author-name">{{ item.name }}</div>
+              <div class="author-car">{{ item.car }}</div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

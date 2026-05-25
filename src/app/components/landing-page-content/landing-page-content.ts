@@ -6,10 +6,11 @@ import { Page } from '../../models/page';
 import { VeiculoGetResponse } from '../../models/veiculo-get-response';
 import { VeiculoFilter } from '../../models/veiculo-filter';
 import { VeiculoService } from '../../services/veiculo';
+import { Depoimento } from '../depoimento/depoimento';
 
 @Component({
   selector: 'app-landing-page-content',
-  imports: [Hero, FeaturedVehicles],
+  imports: [Hero, FeaturedVehicles,Depoimento],
   templateUrl: './landing-page-content.html',
   styleUrl: './landing-page-content.scss',
 })
@@ -22,7 +23,7 @@ export class LandingPageContent {
   error = input<string | null>(null);
   search = output<VeiculoFilter>();
   retry = output<void>();
-  vehicleClick = output<number>(); // ← novo output
+  vehicleClick = output<number>(); 
 
   veiculosDestaque = signal<VeiculoGetResponse[]>([]);
   loadingDestaques = signal(true);
