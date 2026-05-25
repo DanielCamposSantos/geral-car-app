@@ -17,13 +17,17 @@ export class Galery {
   selectedImageIndex = signal<number>(0);
 
   realImagePath = computed(() =>
-    this.images().map(
-      image => `${environment.API_URL}/${image.imagePath}`
-    )
+    this.images().map(image => this.buildImageUrl(image.publicUrl))
   );
 
   getImageUrl(image: ImagemGetResponse) {
-    return `${environment.API_URL}/${image.imagePath}`;
+    return this.buildImageUrl(image.publicUrl);
+  }
+
+  private buildImageUrl(publicUrl: string): string {
+    return publicUrl.startsWith('http')
+      ? publicUrl
+      : `${environment.API_URL}/${publicUrl}`;
   }
 
   

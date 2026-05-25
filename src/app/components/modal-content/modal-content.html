@@ -61,16 +61,22 @@
       <label>Descrição</label>
       <textarea formControlName="descricao" rows="4"
         placeholder="Descrição completa do veículo..."></textarea>
+      @if (addForm.get('descricao')?.hasError('maxlength') && addForm.get('descricao')?.touched) {
+      <small class="error">Descrição deve ter no máximo 500 caracteres</small>
+      }
     </div>
 
     <div class="form-group full">
       <label>Imagens</label>
       <input type="file" multiple (change)="onFileSelected($event)"
         accept="image/jpeg,image/png,image/webp" />
+      @if (addForm.get('imagens')?.invalid && addForm.get('imagens')?.touched) {
+      <small class="error">É necessário adicionar ao menos uma imagem</small>
+      }
 
-      @if (addForm.value.imagens && addForm.value.imagens.length > 0) {
+      @if (imagensControl.value && imagensControl.value.length > 0) {
       <div class="image-preview">
-        @for (img of addForm.value.imagens; track $index) {
+        @for (img of imagensControl.value; track $index) {
         <div class="image-item">
           <span>{{ img.name }}</span>
           <button type="button" (click)="removeImage($index)">

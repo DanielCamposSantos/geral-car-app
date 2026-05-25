@@ -110,5 +110,12 @@
       [visible]="notificationVisible()"
       (close)="dismissNotification()">
     </app-notification-popup>
+
+    @if (isProcessing()) {
+    <div class="processing-overlay">
+      <div class="spinner"></div>
+      <p>Processando...</p>
+    </div>
+    }
   </div>
 </div>

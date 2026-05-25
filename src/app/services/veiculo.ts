@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { environment } from "../../environments/environment.development";
 import { Filtros } from "../models/filtros";
 import { VeiculoFilter } from "../models/veiculo-filter";
@@ -92,6 +92,11 @@ export class VeiculoService {
   }
 
   create(data: VeiculoPostRequest): Observable<VeiculoPostResponse> {
+    const imagens = Array.isArray(data.imagens) ? data.imagens : [];
+    if (imagens.length === 0) {
+      return throwError(() => new Error('É necessário enviar ao menos uma imagem para o veículo.'));
+    }
+
     const formData = new FormData();
     const requestData = {
       marca: data.marca,
@@ -106,8 +111,8 @@ export class VeiculoService {
 
     formData.append('data', new Blob([JSON.stringify(requestData)], { type: 'application/json' }));
 
-    data.imagens.forEach((imagem: File) => {
-      formData.append('imagens', imagem);
+    imagens.forEach((imagem: File) => {
+      formData.append('images', imagem);
     });
     return this.http.post<VeiculoPostResponse>(this.baseUrl, formData);
   }
@@ -135,7 +140,7 @@ export class VeiculoService {
   addImagens(veiculoId: number, files: File[]): Observable<void> {
     const formData = new FormData();
     files.forEach(file => {
-      formData.append('imagens', file);
+      formData.append('images', file);
     });
     return this.http.post<void>(`${this.baseUrl}/${veiculoId}/imagens`, formData);
   }

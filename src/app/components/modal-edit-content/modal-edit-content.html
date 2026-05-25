@@ -46,21 +46,27 @@
     <div class="form-group full">
       <label>Descrição</label>
       <textarea formControlName="descricao" rows="4"></textarea>
+      @if (addForm.get('descricao')?.hasError('maxlength') && addForm.get('descricao')?.touched) {
+      <small class="error">Descrição deve ter no máximo 500 caracteres</small>
+      }
     </div>
 
     <div class="form-group full">
       <label>Imagens</label>
       <input type="file" multiple (change)="onFileSelected($event)"
         accept="image/jpeg,image/png,image/webp" />
+      @if (imageError) {
+      <small class="error">{{ imageError }}</small>
+      }
 
       @if (getImagensParaExibir().length > 0) {
       <div class="image-preview">
         @for (img of getImagensParaExibir(); track $index) {
         <div class="image-item">
-          @if (img.imagePath) {
-          <img [src]="getImageUrl(img.imagePath)" class="image-thumb" />
-          } @else if (img.file) {
-          <img [src]="getObjectURL(img.file)" class="image-thumb" />
+          @if (img.publicUrl) {
+          <img [src]="getImageUrl(img.publicUrl)" class="image-thumb" />
+          } @else if (img.objectUrl) {
+          <img [src]="img.objectUrl" class="image-thumb" />
           }
           <span>{{ img.file?.name || 'Imagem existente' }}</span>
           <button type="button" (click)="removeImagem($index)">

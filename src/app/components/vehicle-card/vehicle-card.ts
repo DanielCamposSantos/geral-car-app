@@ -17,10 +17,16 @@ export class VehicleCard {
 
   realImagePath = computed(() => {
     const imagem = this.veiculo().imagens?.[0];
-    return imagem 
-      ? `${environment.API_URL}/${imagem.imagePath}` 
+    return imagem
+      ? this.buildImageUrl(imagem.publicUrl)
       : '';
   });
+
+  private buildImageUrl(publicUrl: string): string {
+    return publicUrl.startsWith('http')
+      ? publicUrl
+      : `${environment.API_URL}/${publicUrl}`;
+  }
 
   onVehicleClick(): void {
     this.vehicleClick.emit(this.veiculo().id);

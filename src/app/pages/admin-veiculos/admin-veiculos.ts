@@ -30,6 +30,7 @@ export class AdminVeiculos {
   notificationVisible = signal(false);
   notificationMessage = signal('');
   notificationType = signal<'success' | 'error' | 'info'>('success');
+  isProcessing = signal(false);
 
   veiculos = this.veiculoService.page;
   filtros = this.veiculoService.filtros;
@@ -49,10 +50,14 @@ export class AdminVeiculos {
     this.carregarTotalDestaques();
   }
 
-  private carregarTotalDestaques(): void {
+  private carregarTotalDestaques(showErrorToast: boolean = true): void {
     this.veiculoService.getDestaqueCount().subscribe({
       next: (count) => this.totalDestaques.set(count),
-      error: () => this.showToast('Erro ao carregar total de destaques', 'error')
+      error: () => {
+        if (showErrorToast) {
+          this.showToast('Erro ao carregar total de destaques', 'error');
+        }
+      }
     });
   }
 
@@ -112,17 +117,45 @@ export class AdminVeiculos {
   }
 
   createVeiculo(data: VeiculoPostRequest): void {
+    const requestStart = Date.now();
+    this.isProcessing.set(true);
+
+    const finish = (callback: () => void): void => {
+      const elapsed = Date.now() - requestStart;
+      const delay = Math.max(2000 - elapsed, 0);
+      setTimeout(() => {
+        this.isProcessing.set(false);
+        callback();
+      }, delay);
+    };
+
     this.veiculoService.create(data).subscribe({
       next: () => {
-        this.recarregarAposOperacao();
-        this.closeModal();
-        this.showToast('Veículo criado com sucesso!');
+        finish(() => {
+          this.recarregarAposOperacao(true);
+          this.closeModal();
+          this.showToast('Veículo criado com sucesso!');
+        });
       },
-      error: () => this.showToast('Erro ao criar veículo', 'error')
+      error: () => {
+        finish(() => {
+          this.showToast('Erro ao criar veículo', 'error');
+        });
+      }
     });
   }
 
   updateVeiculo(event: { data: VeiculoPutRequest; imagensParaAdicionar: File[]; imagensParaDeletar: number[] }): void {
+    const currentVehicle = this.selectedVehicle();
+    if (currentVehicle) {
+      const existingImageCount = currentVehicle.imagens.length;
+      const deletingAllExisting = event.imagensParaDeletar.length >= existingImageCount;
+      if (deletingAllExisting && event.imagensParaAdicionar.length === 0) {
+        this.showToast('Não é possível remover todas as imagens do veículo. Adicione ao menos uma imagem.', 'error');
+        return;
+      }
+    }
+
     this.openConfirmDialog('Atualizar Veículo', 'Deseja realmente salvar as alterações?')
       .subscribe((confirmed) => {
         if (!confirmed) return;
@@ -190,9 +223,9 @@ export class AdminVeiculos {
     });
   }
 
-  private recarregarAposOperacao(): void {
+  private recarregarAposOperacao(suppressReloadErrorToasts = false): void {
     this.veiculoService.getAllFullList();
-    this.carregarTotalDestaques();
+    this.carregarTotalDestaques(!suppressReloadErrorToasts);
   }
 
   onVehicleClick(id: number): void {

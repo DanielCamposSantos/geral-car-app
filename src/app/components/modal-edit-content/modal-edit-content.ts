@@ -9,7 +9,8 @@ import { VeiculoPutRequest } from "../../models/veiculo-put-request";
 interface ImagemItem {
   id?: number;
   file?: File;
-  imagePath?: string;
+  publicUrl?: string;
+  objectUrl?: string;
   isNew: boolean;
   isDeleted: boolean;
 }
@@ -40,11 +41,13 @@ export class ModalEditContent implements OnInit {
     cor: ['', Validators.required],
     destaque: [false],
     combustivel: [TipoCombustivel.FLEX, Validators.required],
-    descricao: ['']
+    descricao: ['', Validators.maxLength(500)]
   })
 
-  getImageUrl(imagePath: string): string {
-    return `${environment.API_URL}/${imagePath}`;
+  getImageUrl(imageUrl: string): string {
+    return imageUrl.startsWith('http')
+      ? imageUrl
+      : `${environment.API_URL}/${imageUrl}`;
   }
 
   ngOnInit() {
@@ -61,7 +64,7 @@ export class ModalEditContent implements OnInit {
 
     this.imagens.set(this.veiculo().imagens.map(img => ({
       id: img.id,
-      imagePath: img.imagePath,
+      publicUrl: img.publicUrl,
       isNew: false,
       isDeleted: false
     })))
@@ -73,10 +76,12 @@ export class ModalEditContent implements OnInit {
       const files = Array.from(input.files)
       const novasImagens: ImagemItem[] = files.map(file => ({
         file: file,
+        objectUrl: window.URL.createObjectURL(file),
         isNew: true,
         isDeleted: false
       }))
       this.imagens.update(current => [...current, ...novasImagens])
+      this.imageError = null
     }
     input.value = ''
   }
@@ -94,45 +99,53 @@ export class ModalEditContent implements OnInit {
     return this.imagens().filter(img => !img.isDeleted)
   }
 
+  imageError: string | null = null
+
   onSubmit() {
-    if (this.addForm.valid) {
-      const formValue = this.addForm.value;
-
-      const updateData: VeiculoPutRequest = {
-        id: this.veiculo().id,
-        marca: formValue.marca!,
-        modelo: formValue.modelo!,
-        ano: formValue.ano!,
-        quilometragem: formValue.quilometragem!,
-        cor: formValue.cor!,
-        destaque: formValue.destaque!,
-        combustivel: formValue.combustivel!,
-        descricao: formValue.descricao || ''
-      };
-
-      const imagensParaAdicionar = this.imagens()
-        .filter(img => img.isNew && img.file)
-        .map(img => img.file!);
-
-      const imagensParaDeletar = this.imagens()
-        .filter(img => img.id && img.isDeleted)
-        .map(img => img.id!);
-
-      const eventData = {
-        data: updateData,
-        imagensParaAdicionar,
-        imagensParaDeletar
-      };
-
-      this.formSubmit.emit(eventData); 
+    const currentImages = this.getImagensParaExibir();
+    if (currentImages.length === 0) {
+      this.imageError = 'É necessário manter ao menos uma imagem do veículo.'
+      return
     }
+
+    if (!this.addForm.valid) {
+      this.addForm.markAllAsTouched()
+      return
+    }
+
+    const formValue = this.addForm.value;
+
+    const updateData: VeiculoPutRequest = {
+      id: this.veiculo().id,
+      marca: formValue.marca!,
+      modelo: formValue.modelo!,
+      ano: formValue.ano!,
+      quilometragem: formValue.quilometragem!,
+      cor: formValue.cor!,
+      destaque: formValue.destaque!,
+      combustivel: formValue.combustivel!,
+      descricao: formValue.descricao || ''
+    };
+
+    const imagensParaAdicionar = this.imagens()
+      .filter(img => img.isNew && img.file)
+      .map(img => img.file!);
+
+    const imagensParaDeletar = this.imagens()
+      .filter(img => img.id && img.isDeleted)
+      .map(img => img.id!);
+
+    const eventData = {
+      data: updateData,
+      imagensParaAdicionar,
+      imagensParaDeletar
+    };
+
+    this.formSubmit.emit(eventData);
   }
 
   onClose() {
     this.close.emit()
   }
 
-  getObjectURL(file: File): string {
-    return window.URL.createObjectURL(file);
-  }
 }

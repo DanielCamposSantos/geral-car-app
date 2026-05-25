@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VeiculoPostRequest } from '../../models/veiculo-post-request';
 import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
 
@@ -18,6 +18,8 @@ export class ModalContent {
   close = output<void>()
   submit = output<VeiculoPostRequest>()
 
+  imagensControl = this.fb.control<File[]>([], this.requireAtLeastOneImage)
+
   addForm = this.fb.group({
     marca: ['', Validators.required],
     modelo: ['', Validators.required],
@@ -26,31 +28,49 @@ export class ModalContent {
     cor: ['',[Validators.required]],
     destaque: [false],
     combustivel: [TipoCombustivel.FLEX, Validators.required],
-    descricao: [''],
-    imagens: [[] as File[]]
+    descricao: ['', Validators.maxLength(500)],
+    imagens: this.imagensControl
   })
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement
     if (input.files) {
       const files = Array.from(input.files)
-      const currentFiles = this.addForm.get('imagens')?.value || []
-      this.addForm.patchValue({ imagens: [...currentFiles, ...files] })
+      const currentFiles = this.imagensControl.value || []
+      this.imagensControl.setValue([...currentFiles, ...files])
     }
   }
 
   removeImage(index: number) {
-    const currentFiles = this.addForm.get('imagens')?.value || []
+    const currentFiles = this.imagensControl.value || []
     const newFiles = [...currentFiles]
     newFiles.splice(index, 1)
-    this.addForm.patchValue({ imagens: newFiles })
+    this.imagensControl.setValue(newFiles)
   }
 
   onSubmit() {
-    if (this.addForm.valid) {
-      this.submit.emit(this.addForm.value as VeiculoPostRequest)
-      this.addForm.reset()
+    if (!this.addForm.valid) {
+      this.addForm.markAllAsTouched();
+      return;
     }
+
+    this.submit.emit(this.addForm.value as VeiculoPostRequest)
+    this.addForm.reset({
+      marca: '',
+      modelo: '',
+      ano: this.currentYear,
+      quilometragem: 0,
+      cor: '',
+      destaque: false,
+      combustivel: TipoCombustivel.FLEX,
+      descricao: '',
+      imagens: []
+    })
+  }
+
+  private requireAtLeastOneImage(control: AbstractControl) {
+    const value = control.value as File[] | undefined
+    return Array.isArray(value) && value.length > 0 ? null : { required: true }
   }
 
   onClose() {
