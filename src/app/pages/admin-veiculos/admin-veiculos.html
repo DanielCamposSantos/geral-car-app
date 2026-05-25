@@ -85,6 +85,7 @@
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal" (click)="$event.stopPropagation()">
         <app-modal-content
+          [loading]="isProcessing()"
           (close)="closeModal()"
           (submit)="createVeiculo($event)">
         </app-modal-content>

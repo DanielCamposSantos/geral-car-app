@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VeiculoPostRequest } from '../../models/veiculo-post-request';
 import { TipoCombustivel } from '../../models/enums/tipo-combustivel';
@@ -17,6 +17,7 @@ export class ModalContent {
 
   close = output<void>()
   submit = output<VeiculoPostRequest>()
+  loading = input(false)
 
   imagensControl = this.fb.control<File[]>([], this.requireAtLeastOneImage)
 

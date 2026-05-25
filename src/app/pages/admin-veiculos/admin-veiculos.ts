@@ -117,6 +117,10 @@ export class AdminVeiculos {
   }
 
   createVeiculo(data: VeiculoPostRequest): void {
+    if (this.isProcessing()) {
+      return;
+    }
+
     const requestStart = Date.now();
     this.isProcessing.set(true);
 
@@ -137,7 +141,8 @@ export class AdminVeiculos {
           this.showToast('Veículo criado com sucesso!');
         });
       },
-      error: () => {
+      error: (error) => {
+        console.error('Erro ao criar veículo:', error);
         finish(() => {
           this.showToast('Erro ao criar veículo', 'error');
         });

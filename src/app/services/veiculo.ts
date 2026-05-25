@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, map, catchError } from "rxjs";
 import { environment } from "../../environments/environment.development";
 import { Filtros } from "../models/filtros";
 import { VeiculoFilter } from "../models/veiculo-filter";
@@ -114,7 +114,25 @@ export class VeiculoService {
     imagens.forEach((imagem: File) => {
       formData.append('images', imagem);
     });
-    return this.http.post<VeiculoPostResponse>(this.baseUrl, formData);
+
+    return this.http.post(this.baseUrl, formData, {
+      observe: 'response',
+      responseType: 'text'
+    }).pipe(
+      map(response => {
+        if (response.status >= 200 && response.status < 300) {
+          try {
+            return response.body ? JSON.parse(response.body) as VeiculoPostResponse : { id: 0 } as VeiculoPostResponse;
+          } catch {
+            return { id: 0 } as VeiculoPostResponse;
+          }
+        }
+        throw new Error('Erro ao criar veículo');
+      }),
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
   }
 
   delete(id: number): Observable<void> {

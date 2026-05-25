@@ -100,6 +100,6 @@
     <button type="button" class="btn btn-ghost"
       (click)="onClose()">Cancelar</button>
     <button type="submit" class="btn btn-primary"
-      [disabled]="addForm.invalid">Salvar Veículo</button>
+      [disabled]="addForm.invalid || loading()">Salvar Veículo</button>
   </div>
 </form>
