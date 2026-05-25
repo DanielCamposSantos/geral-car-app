@@ -1,10 +1,11 @@
 import { Component, signal, computed, effect } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 interface NavLink {
   path: string;
   label: string;
   exact: boolean;
+  scrollTo?: string;
 }
 
 @Component({
@@ -23,10 +24,10 @@ export class Header {
   navLinks: NavLink[] = [
     { path: '/home', label: 'Início', exact: true },
     { path: '/catalog', label: 'Catálogo', exact: false },
-    { path: '/testimonials', label: 'Depoimentos', exact: false }
+    { path: '/home', label: 'Depoimentos', exact: false, scrollTo: 'testimonials-section' }
   ];
 
-  constructor() {
+  constructor(private router: Router) {
     effect(() => {
       document.body.style.overflow = this.isMenuOpen() ? 'hidden' : '';
     });
@@ -38,5 +39,32 @@ export class Header {
 
   closeMenu() {
     this.isMenuOpen.set(false);
+  }
+
+  scrollToSection(id: string, event: Event) {
+    event.preventDefault();
+    this.closeMenu();
+
+    const scrollToElement = () => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+      return false;
+    };
+
+    if (this.router.url.startsWith('/home')) {
+      if (!scrollToElement()) {
+        setTimeout(scrollToElement, 100);
+      }
+      return;
+    }
+
+    this.router.navigate(['/home']).then(() => {
+      if (!scrollToElement()) {
+        setTimeout(scrollToElement, 100);
+      }
+    });
   }
 }
