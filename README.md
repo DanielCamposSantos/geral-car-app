@@ -1,59 +1,282 @@
-# GeralCar
+<p align="center">
+  <img src="public/images/GERAL%20CAR.svg" alt="Geral Car" width="260" />
+</p>
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+# GeralCar App
 
-## Development server
+Frontend web da plataforma **GeralCar**, desenvolvido para disponibilizar o catálogo de veículos de uma concessionária e oferecer uma interface administrativa para gerenciamento do estoque.
 
-To start a local development server, run:
+A aplicação foi construída com **Angular e TypeScript** e consome a [GeralCar API](https://github.com/DanielCamposSantos/geral-car-api), responsável pela persistência, autenticação, filtros e gerenciamento dos veículos.
 
-```bash
-ng serve
+## Sobre o projeto
+
+O GeralCar App possui dois principais fluxos:
+
+* **área pública**, utilizada para consultar veículos, aplicar filtros, visualizar informações e entrar em contato com a concessionária;
+* **área administrativa**, utilizada para cadastrar, editar e excluir veículos, gerenciar imagens e definir itens em destaque.
+
+A aplicação utiliza componentes standalone do Angular, **Signals** para estado compartilhado do catálogo e `HttpClient` com RxJS para comunicação assíncrona com o backend.
+
+## Destaques técnicos
+
+* Angular com arquitetura baseada em componentes standalone;
+* TypeScript com configuração de tipagem estrita;
+* gerenciamento de estado local utilizando Angular Signals;
+* Reactive Forms para formulários administrativos;
+* integração REST utilizando Angular `HttpClient`;
+* autenticação baseada em sessão HTTP;
+* interceptor funcional para envio de credenciais;
+* Angular Router para navegação e filtros por query parameters;
+* Angular Material em componentes de interface;
+* layout responsivo utilizando SCSS, Grid e Flexbox;
+* integração direta com WhatsApp;
+* comunicação com backend Spring Boot.
+
+## Funcionalidades
+
+### Área pública
+
+* página inicial com veículos disponíveis e itens em destaque;
+* catálogo paginado;
+* busca textual por marca ou modelo;
+* filtros por ano e tipo de combustível;
+* sugestões de busca baseadas nos dados fornecidos pela API;
+* estados visuais para carregamento, erro e catálogo vazio;
+* cards com informações resumidas dos veículos;
+* página de detalhes;
+* galeria com múltiplas imagens;
+* descrição e ficha técnica;
+* contato via WhatsApp com mensagem contextualizada para o veículo selecionado;
+* layout responsivo para diferentes tamanhos de tela.
+
+### Área administrativa
+
+* login administrativo;
+* visualização geral do estoque;
+* cadastro de veículos;
+* edição das informações;
+* exclusão de veículos;
+* gerenciamento das imagens associadas;
+* definição de veículos em destaque;
+* validação dos formulários;
+* mensagens de sucesso e erro após operações administrativas.
+
+## Tecnologias
+
+| Finalidade  | Tecnologias                    |
+| ----------- | ------------------------------ |
+| Framework   | Angular 21                     |
+| Linguagem   | TypeScript                     |
+| Estado      | Angular Signals                |
+| Navegação   | Angular Router                 |
+| Formulários | Angular Forms e Reactive Forms |
+| Comunicação | Angular HttpClient e RxJS      |
+| Interface   | Angular Material               |
+| Estilos     | HTML e SCSS                    |
+
+## Estrutura da aplicação
+
+```text
+geral-car-app/
+├── public/
+│   └── images/
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   ├── interceptors/
+│   │   ├── models/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── app.config.ts
+│   │   └── app.routes.ts
+│   ├── environments/
+│   └── styles/
+├── angular.json
+└── package.json
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+As principais responsabilidades estão distribuídas entre:
 
-## Code scaffolding
+* **pages**: telas principais da aplicação;
+* **components**: elementos reutilizáveis da interface;
+* **services**: comunicação com a API e regras compartilhadas pelo frontend;
+* **models**: contratos TypeScript utilizados pela aplicação;
+* **interceptors**: configuração comum das requisições HTTP;
+* **environments**: configuração da URL do backend.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Principais rotas
 
-```bash
-ng generate component component-name
+| Rota              | Finalidade                            |
+| ----------------- | ------------------------------------- |
+| `/home`           | Página inicial e veículos em destaque |
+| `/catalog`        | Catálogo, filtros, busca e paginação  |
+| `/detalhes/:id`   | Informações completas do veículo      |
+| `/login`          | Autenticação administrativa           |
+| `/admin/veiculos` | Gerenciamento do estoque              |
+
+## Integração com a API
+
+A aplicação se comunica com a GeralCar API através do Angular `HttpClient`.
+
+A URL-base do backend é definida através da configuração de environment:
+
+```ts
+export const environment = {
+  production: false,
+  API_URL: 'http://localhost:8080',
+};
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+O `VeiculoService` centraliza as operações relacionadas ao catálogo e ao gerenciamento dos veículos.
 
-```bash
-ng generate --help
+Entre as operações consumidas estão:
+
+* consulta completa do estoque;
+* consulta paginada com filtros;
+* consulta individual de veículo;
+* consulta dos veículos em destaque;
+* cadastro;
+* atualização;
+* exclusão;
+* gerenciamento de imagens;
+* alteração do estado de destaque.
+
+O serviço de autenticação envia as credenciais para:
+
+```text
+POST /api/auth/login
 ```
 
-## Building
+A autenticação utilizada pela solução é baseada em **sessão HTTP**.
 
-To build the project run:
+Um interceptor funcional configura as requisições com:
 
-```bash
-ng build
+```ts
+withCredentials: true
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+permitindo que o navegador envie o cookie de sessão fornecido pelo backend.
 
-## Running unit tests
+O frontend não armazena tokens de autenticação em `localStorage` ou `sessionStorage`.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+A autorização das operações administrativas é validada pela GeralCar API.
+
+## Fluxo público
+
+1. A página inicial carrega dados do estoque e veículos em destaque.
+2. O usuário pode iniciar uma pesquisa ou acessar o catálogo.
+3. Busca e filtros são enviados para a API através da consulta paginada.
+4. O usuário pode abrir a página individual de um veículo.
+5. A página apresenta imagens, descrição e especificações.
+6. O contato com a concessionária é iniciado através de um link para WhatsApp com mensagem preenchida automaticamente.
+
+## Fluxo administrativo
+
+1. O usuário realiza autenticação.
+2. As credenciais são enviadas para a GeralCar API.
+3. Após autenticação, o usuário acessa a interface administrativa.
+4. O painel consulta o estoque através da API.
+5. O usuário pode cadastrar, editar ou remover veículos.
+6. Imagens podem ser adicionadas ou removidas individualmente.
+7. Veículos podem ser marcados ou removidos da seção de destaque.
+
+## Componentes e interface
+
+A aplicação possui componentes reutilizáveis para elementos como:
+
+* layout principal;
+* cards de veículos;
+* filtros;
+* galeria de imagens;
+* tabela de especificações;
+* formulários;
+* diálogos de confirmação;
+* notificações de feedback.
+
+A interface utiliza Angular Material em elementos específicos, mantendo estilização própria através de SCSS.
+
+## Como executar
+
+### Pré-requisitos
+
+* Node.js compatível com Angular 21;
+* npm;
+* uma instância configurada da [GeralCar API](https://github.com/DanielCamposSantos/geral-car-api).
+
+### Instalação
 
 ```bash
-ng test
+git clone https://github.com/DanielCamposSantos/geral-car-app.git
+cd geral-car-app
+npm ci
 ```
 
-## Running end-to-end tests
+### Configuração da API
 
-For end-to-end (e2e) testing, run:
+Configure o endereço do backend no environment:
+
+```ts
+export const environment = {
+  production: false,
+  API_URL: 'http://localhost:8080',
+};
+```
+
+Por padrão, durante o desenvolvimento local:
+
+```text
+http://localhost:8080
+```
+
+O backend também deve estar configurado para permitir a origem utilizada pelo frontend e o envio de credenciais.
+
+### Desenvolvimento
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+A aplicação ficará disponível por padrão em:
 
-## Additional Resources
+```text
+http://localhost:4200
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Build
+
+```bash
+npm run build
+```
+
+Os artefatos gerados ficam em:
+
+```text
+dist/geral-car
+```
+
+## Backend
+
+O backend da plataforma está disponível em:
+
+**[DanielCamposSantos/geral-car-api](https://github.com/DanielCamposSantos/geral-car-api)**
+
+Ele é responsável por:
+
+* autenticação e autorização;
+* persistência dos veículos;
+* filtros e paginação;
+* gerenciamento de imagens;
+* PostgreSQL;
+* integração com Supabase Storage.
+
+## Status
+
+A aplicação possui atualmente os fluxos público e administrativo necessários para consumo da GeralCar API.
+
+O projeto ainda não é apresentado neste repositório como uma aplicação publicada em ambiente de produção.
+
+## Autor
+
+**Daniel Campos Pinto Santos**
+
+[GitHub — DanielCamposSantos](https://github.com/DanielCamposSantos)
