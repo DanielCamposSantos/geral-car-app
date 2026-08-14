@@ -6,44 +6,81 @@
 
 Frontend web da plataforma **GeralCar**, desenvolvido para disponibilizar o catálogo de veículos de uma concessionária e oferecer uma interface administrativa para gerenciamento do estoque.
 
-A aplicação foi construída com **Angular e TypeScript** e consome a [GeralCar API](https://github.com/DanielCamposSantos/geral-car-api), responsável pela persistência, autenticação, filtros e gerenciamento dos veículos.
+A aplicação foi construída com **Angular e TypeScript** e consome a [GeralCar API](https://github.com/DanielCamposSantos/geral-car-api), responsável pela persistência dos dados, autenticação, filtros, paginação e gerenciamento dos veículos e imagens.
 
 ## Sobre o projeto
 
 O GeralCar App possui dois principais fluxos:
 
-* **área pública**, utilizada para consultar veículos, aplicar filtros, visualizar informações e entrar em contato com a concessionária;
+* **área pública**, utilizada para consultar veículos, aplicar filtros, visualizar informações detalhadas e entrar em contato com a concessionária;
 * **área administrativa**, utilizada para cadastrar, editar e excluir veículos, gerenciar imagens e definir itens em destaque.
 
-A aplicação utiliza componentes standalone do Angular, **Signals** para estado compartilhado do catálogo e `HttpClient` com RxJS para comunicação assíncrona com o backend.
+A aplicação utiliza componentes standalone do Angular, **Signals** para gerenciamento de estado compartilhado do catálogo e `HttpClient` com RxJS para comunicação assíncrona com o backend.
 
 ## Destaques técnicos
 
-* Angular com arquitetura baseada em componentes standalone;
-* TypeScript com configuração de tipagem estrita;
-* gerenciamento de estado local utilizando Angular Signals;
-* Reactive Forms para formulários administrativos;
-* integração REST utilizando Angular `HttpClient`;
+* Angular 21 com componentes standalone;
+* TypeScript com tipagem estrita;
+* gerenciamento de estado local com Angular Signals;
+* Reactive Forms nos formulários administrativos;
+* integração REST com Angular `HttpClient`;
 * autenticação baseada em sessão HTTP;
 * interceptor funcional para envio de credenciais;
-* Angular Router para navegação e filtros por query parameters;
+* Angular Router para navegação e query parameters;
 * Angular Material em componentes de interface;
-* layout responsivo utilizando SCSS, Grid e Flexbox;
+* RxJS para tratamento dos fluxos assíncronos;
+* layout responsivo com SCSS, Grid e Flexbox;
 * integração direta com WhatsApp;
-* comunicação com backend Spring Boot.
+* comunicação com backend desenvolvido em Java e Spring Boot.
+
+## Demonstração
+
+Uma demonstração completa dos fluxos público e administrativo da plataforma está disponível no vídeo abaixo.
+
+[![GeralCar — Demonstração da aplicação](https://img.youtube.com/vi/Sot_Eb1jJeQ/hqdefault.jpg)](https://www.youtube.com/watch?v=Sot_Eb1jJeQ)
+
+**[▶ Assistir à demonstração no YouTube](https://www.youtube.com/watch?v=Sot_Eb1jJeQ)**
+
+O vídeo apresenta a navegação pelo catálogo, filtros, visualização dos detalhes de um veículo, autenticação administrativa e operações de gerenciamento integradas à GeralCar API.
+
+## Interface
+
+### Página inicial
+
+A página inicial apresenta o acesso ao catálogo, filtros rápidos e veículos selecionados como destaque.
+
+![Página inicial do GeralCar](docs/screenshots/home.png)
+
+### Catálogo de veículos
+
+O catálogo oferece busca textual, filtros e paginação utilizando os dados disponibilizados pela API.
+
+![Catálogo de veículos do GeralCar](docs/screenshots/catalogo.png)
+
+### Detalhes do veículo
+
+Cada veículo possui uma página própria com galeria de imagens, descrição, especificações técnicas e integração com WhatsApp.
+
+![Página de detalhes de um veículo](docs/screenshots/detalhes.png)
+
+### Área administrativa
+
+A interface administrativa permite consultar o estoque e realizar operações de cadastro, edição, exclusão, gerenciamento de imagens e definição de veículos em destaque.
+
+![Painel administrativo do GeralCar](docs/screenshots/admin.png)
 
 ## Funcionalidades
 
 ### Área pública
 
-* página inicial com veículos disponíveis e itens em destaque;
+* página inicial com acesso ao catálogo e veículos em destaque;
 * catálogo paginado;
 * busca textual por marca ou modelo;
 * filtros por ano e tipo de combustível;
 * sugestões de busca baseadas nos dados fornecidos pela API;
 * estados visuais para carregamento, erro e catálogo vazio;
 * cards com informações resumidas dos veículos;
-* página de detalhes;
+* página individual de detalhes;
 * galeria com múltiplas imagens;
 * descrição e ficha técnica;
 * contato via WhatsApp com mensagem contextualizada para o veículo selecionado;
@@ -80,6 +117,8 @@ A aplicação utiliza componentes standalone do Angular, **Signals** para estado
 geral-car-app/
 ├── public/
 │   └── images/
+├── docs/
+│   └── screenshots/
 ├── src/
 │   ├── app/
 │   │   ├── components/
@@ -164,7 +203,7 @@ A autorização das operações administrativas é validada pela GeralCar API.
 ## Fluxo público
 
 1. A página inicial carrega dados do estoque e veículos em destaque.
-2. O usuário pode iniciar uma pesquisa ou acessar o catálogo.
+2. O usuário pode iniciar uma pesquisa ou acessar diretamente o catálogo.
 3. Busca e filtros são enviados para a API através da consulta paginada.
 4. O usuário pode abrir a página individual de um veículo.
 5. A página apresenta imagens, descrição e especificações.
@@ -222,7 +261,7 @@ export const environment = {
 };
 ```
 
-Por padrão, durante o desenvolvimento local:
+Durante o desenvolvimento local, o backend utiliza por padrão:
 
 ```text
 http://localhost:8080
@@ -267,7 +306,8 @@ Ele é responsável por:
 * filtros e paginação;
 * gerenciamento de imagens;
 * PostgreSQL;
-* integração com Supabase Storage.
+* integração com Supabase Storage;
+* testes automatizados da solução backend.
 
 ## Status
 
